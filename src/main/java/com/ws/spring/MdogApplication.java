@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -32,6 +33,9 @@ import com.ws.spring.email.service.EmailServiceImpl;
 public class MdogApplication extends SpringBootServletInitializer implements ApplicationRunner {
 
 	Logger logger = LogManager.getLogger(this.getClass().getName());
+
+	@Value("${spring.profiles.active}")
+	private String activeProfile;
 
 	@Autowired
 	EmailServiceImpl emailServiceImpl;
@@ -63,10 +67,12 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 	@Override
 	public void run(ApplicationArguments applicationArguments) {
 		logger.info("1 Application started without any error Date : {}", new Date());
-		logger.info("2 Application started without any error Date : {}", new Date());
 		try {
-			logger.warn(emailServiceImpl.sendMail("paramanagowda.patil@gmail.com", "Test Mdog App Mail",
-					"Test Mdog App Mail"));
+			logger.info("Application SPring boot Active Profile is : {}", activeProfile);
+			if ("prod".equals(activeProfile))
+				emailServiceImpl.sendSimpleMessage("paramanagowda.patil@gmail.com", "Test Mdog App Mail",
+						"Test Mdog App Mail");
+			logger.info("Email Sent Successfully");
 
 		} catch (Exception e) {
 			logger.error("SendSms got an error : {},", e.getMessage(), e);

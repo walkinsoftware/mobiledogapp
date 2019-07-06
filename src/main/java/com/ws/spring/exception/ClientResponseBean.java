@@ -5,6 +5,7 @@ public class ClientResponseBean {
 	private int responseCode;
 	private String status;
 	private String message;
+	private Object data;
 	private String errorMessage;
 	private Exception exception;
 
@@ -13,6 +14,23 @@ public class ClientResponseBean {
 		this.responseCode = responseCode;
 		this.status = status;
 		this.message = message;
+		this.errorMessage = errorMessage;
+	}
+
+	public ClientResponseBean(ResponseCodes responseCodes) {
+		super();
+		this.responseCode = responseCodes.getResponseCode();
+		this.status = responseCodes.getStatus();
+		this.message = responseCodes.getMessage();
+		this.errorMessage = responseCodes.getErrorMessage();
+	}
+
+	public ClientResponseBean(int responseCode, String status, String message, Object data, String errorMessage) {
+		super();
+		this.responseCode = responseCode;
+		this.status = status;
+		this.message = message;
+		this.data = data;
 		this.errorMessage = errorMessage;
 	}
 
@@ -49,6 +67,14 @@ public class ClientResponseBean {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
 	}
 
 	public String getErrorMessage() {

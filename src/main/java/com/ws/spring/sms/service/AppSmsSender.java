@@ -33,11 +33,9 @@ public class AppSmsSender {
 	public AppSmsSender() {
 	}
 
-
 	public void sendUserRegistrationSms(UserDetails userDetails) {
 		String mainUrl = prepareSms(userDetails, "mdogapp.sms.user.registration");
 		sendSms.sendSmstoUser(mainUrl, userDetails.getMobileNumber());
-
 	}
 
 	public void sendUserOtp(UserOtpBean userOtpBean) {
@@ -48,17 +46,17 @@ public class AppSmsSender {
 		mainReplacements.put("type", env.getProperty("mdogapp.sms.type"));
 
 		smsMainUrl = StringUtil.messageFormat(env.getProperty("mdogapp.sms.mainUrl"), mainReplacements);
-		
+
 		Map<String, String> replacements = new HashMap<String, String>();
-		//replacements.put("user", userOtpBean.getUserName());
-		//replacements.put("username", userOtpBean.getUserName());
+		// replacements.put("user", userOtpBean.getUserName());
+		// replacements.put("username", userOtpBean.getUserName());
 		replacements.put("otp", userOtpBean.getOtp());
 		String otpMessage = env.getProperty("mdogapp.sms.user.otp");
 		String message = StringUtil.messageFormat(otpMessage, replacements);
 
 		Map<String, String> mainUrlreplacements = new HashMap<String, String>();
 		String messageEncoded = StringUtil.encode(message);
-		logger.info("Message : {} , String util ENcoder {}", message, messageEncoded);
+		logger.info("Message : {} , String util Encoder {}", message, messageEncoded);
 		mainUrlreplacements.put("message", messageEncoded);
 		String mobileNumber = userOtpBean.getMobileNumber();
 		mainUrlreplacements.put("mobile", mobileNumber);
@@ -83,5 +81,10 @@ public class AppSmsSender {
 		String mobileNumber = userDetails.getMobileNumber();
 		mainUrlreplacements.put("mobile", mobileNumber);
 		return StringUtil.messageFormat(smsMainUrl, mainUrlreplacements);
+	}
+
+	public void sendEmergencyNotificationSms(UserDetails userDetails) {
+		String mainUrl = prepareSms(userDetails, "mdogapp.sms.emeregency");
+		sendSms.sendSmstoUser(mainUrl, userDetails.getSecondaryMobileNumber());
 	}
 }

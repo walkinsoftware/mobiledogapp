@@ -10,7 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface SimRemovalDetailsRepository extends JpaRepository<SimRemovalDetails, Long> {
 
-    @Query("Select s from SimRemovalDetails s where s.mobileNumber = :mobileNumber")
-    List<SimRemovalDetails> querySimRemovalDetailsByMobileNumber(@Param("mobileNumber") String mobileNumber);
+	@Query("Select s from SimRemovalDetails s where s.mobileNumber = :mobileNumber")
+	List<SimRemovalDetails> querySimRemovalDetailsByMobileNumber(@Param("mobileNumber") String mobileNumber);
+
+	@Query("Select s from SimRemovalDetails s where s.imeiNum = :imeiNum")
+	List<SimRemovalDetails> querySimRemovalDetailsByImei(@Param("imeiNum") String imeiNum);
 
 }

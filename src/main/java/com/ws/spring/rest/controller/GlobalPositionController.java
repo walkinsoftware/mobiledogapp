@@ -24,8 +24,10 @@ import org.springframework.web.server.ResponseStatusException;
 import com.ws.common.util.ClientResponseUtil;
 import com.ws.spring.dto.SimRemovalDto;
 import com.ws.spring.exception.ClientResponseBean;
+import com.ws.spring.model.EmeregencyDetails;
 import com.ws.spring.model.GpsTrackingDetails;
 import com.ws.spring.model.SimRemovalDetails;
+import com.ws.spring.service.EmeregencyDetailsService;
 import com.ws.spring.service.GpsTrackingService;
 import com.ws.spring.service.SimRemovalDetailsService;
 
@@ -40,6 +42,9 @@ public class GlobalPositionController {
 
 	@Autowired
 	SimRemovalDetailsService simRemovalDetailsService;
+
+	@Autowired
+	EmeregencyDetailsService emeregencyDetailsDervice;
 
 	@Autowired
 	GpsTrackingService gpsTrackingService;
@@ -91,9 +96,23 @@ public class GlobalPositionController {
 	}
 
 	@PostMapping("/v1/emeregency")
-	public ClientResponseBean emeregency(@RequestBody SimRemovalDetails simRemovalDetails) {
-		SimRemovalDetails removalDetails = simRemovalDetailsService.insert(simRemovalDetails);
-		if (null != removalDetails) {
+	public ClientResponseBean emeregency(@RequestBody SimRemovalDto simRemovalDto) {
+
+		String mobileNumber = simRemovalDto.getMobileNumber();
+		logger.info("simRemoval simRemovalDto details : {}", simRemovalDto);
+		EmeregencyDetails emeregencyDetails = new EmeregencyDetails();
+		BeanUtils.copyProperties(simRemovalDto, emeregencyDetails, "image");
+		MultipartFile image = simRemovalDto.getImage();
+		if (!image.isEmpty()) {
+			try {
+				byte[] bytes = image.getBytes();
+				emeregencyDetails.setImage(new SerialBlob(bytes));
+			} catch (IOException | SQLException e) {
+				logger.error("Exception occured while simremoval, mobileNumber : {}", mobileNumber, e);
+			}
+		}
+		EmeregencyDetails emerenecy = emeregencyDetailsDervice.insert(emeregencyDetails);
+		if (null != emerenecy) {
 			// Send SMS to Secondary mobile number
 			return ClientResponseUtil.getSuccessResponse();
 		}

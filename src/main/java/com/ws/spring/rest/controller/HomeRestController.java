@@ -73,14 +73,8 @@ public class HomeRestController {
 			@ApiParam(value = "UserDetail store in database table", required = true) @Valid @RequestBody UserDetails user) {
 		logger.debug("userRegistration for UserName : {}", user.getUserName());
 		try {
-			if (null == userService.verifyUserOtp(user.getMobileNumber(), user.getOtp())) {
-				return ClientResponseUtil.getUserOptValidationFailed();
-			}
-			UserDetails userRegistration = userService.userRegistration(user);
-			if (null != userRegistration) {
-				return ClientResponseUtil.userRegistrationSuccess();
-			}
-			return ClientResponseUtil.UserRegistrationFailed();
+			return userService.userRegistration(user);
+			
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User Registration got an Error", ex);

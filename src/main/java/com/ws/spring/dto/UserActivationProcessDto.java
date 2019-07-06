@@ -10,7 +10,6 @@ public class UserActivationProcessDto {
 
 	public UserActivationProcessDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public UserActivationProcessDto(Long[] userIds, String operationType, String reason) {

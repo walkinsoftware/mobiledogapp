@@ -20,11 +20,17 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	@Query("SELECT u FROM UserDetails u WHERE u.userName = :userName")
 	UserDetails findUserDetailsByUserName(@Param("userName") String userName);
 
-	@Query("SELECT u FROM UserDetails u WHERE u.userName = :emailId")
+	@Query("SELECT u FROM UserDetails u WHERE u.emailId = :emailId")
 	UserDetails findUserDetailsByEmailId(@Param("emailId") String emailId);
+
+	@Query("SELECT u FROM UserDetails u WHERE u.mobileNumber = :mobileNumber")
+	UserDetails findUserDetailsByMobileNumber(@Param("mobileNumber") String mobileNumber);
 
 	@Query("SELECT u FROM UserDetails u WHERE u.userName = :userName or u.emailId = :userName or u.mobileNumber = :userName")
 	UserDetails queryLoginUserDetails(@Param("userName") String userName);
+
+	@Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM UserDetails u WHERE (u.isActive = 0 or u.isActive = 1) and u.barcode = :barcode")
+	Boolean isBarCodeExist(String barcode);
 
 	@Query("SELECT u FROM UserDetails u WHERE u.isActive = 0")
 	List<UserDetails> queryInactiveUsers();
@@ -32,15 +38,16 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	@Modifying(clearAutomatically = true)
 	@Transactional
 	@Query("UPDATE UserDetails u set u.approveStatus = :approveStatus, u.isActive = :isActive, u.reason = :reason where u.id in :userIds")
-	void updateUserActivation(@Param("userIds") Set<Long> userIds, @Param("approveStatus") int approveStatus, @Param("isActive") int isActive,
-			@Param("reason") String reason);
+	void updateUserActivation(@Param("userIds") Set<Long> userIds, @Param("approveStatus") int approveStatus,
+			@Param("isActive") int isActive, @Param("reason") String reason);
 
 	@Modifying(clearAutomatically = true)
 	@Transactional
 	@Query("UPDATE UserDetails u set u.mpin = :mpin where u.mobileNumber = :mobileNumber")
 	void updateMpin(@Param("mobileNumber") String mobileNumber, @Param("mpin") String mpin);
-	
+
 	@Query("SELECT u FROM UserDetails u WHERE u.userName LIKE :userName or u.fullName LIKE :userName and u.mobileNumber LIKE :mobileNumber")
-	List<UserDetails> queryUserDetailsByUserNameOrMobile(@Param("userName") String userName,@Param("mobileNumber") String mobileNumber);
+	List<UserDetails> queryUserDetailsByUserNameOrMobile(@Param("userName") String userName,
+			@Param("mobileNumber") String mobileNumber);
 
 }

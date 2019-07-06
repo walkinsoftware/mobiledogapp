@@ -3,11 +3,15 @@ package com.ws.common.util;
 import org.springframework.http.HttpStatus;
 
 import com.ws.spring.exception.ClientResponseBean;
+import com.ws.spring.exception.ResponseCodes;
+import com.ws.spring.model.UserDetails;
 
 public class ClientResponseUtil {
 
-	public static ClientResponseBean userRegistrationSuccess() {
-		return new ClientResponseBean(HttpStatus.CREATED.value(), "SUUCESS", "User Registration Completed.", "");
+	public static ClientResponseBean userRegistrationSuccess(UserDetails userDetails) {
+		
+		return new ClientResponseBean(HttpStatus.CREATED.value(), "SUUCESS", "User Registration Completed.",
+				userDetails, "");
 	}
 
 	public static ClientResponseBean UserRegistrationFailed() {
@@ -44,6 +48,10 @@ public class ClientResponseUtil {
 
 	public static ClientResponseBean getErrorResponse() {
 		return new ClientResponseBean(10001, "FAILED", "", "Activity Failed.");
+	}
+
+	public static ClientResponseBean getErrorResponse(ResponseCodes responseCode) {
+		return new ClientResponseBean(responseCode.getResponseCode(), "FAILED", "", responseCode.getErrorMessage());
 	}
 
 }

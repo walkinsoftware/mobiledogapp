@@ -3,6 +3,7 @@ package com.ws.spring.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -28,9 +29,9 @@ import io.swagger.annotations.ApiModelProperty;
 public class UserDetails implements Serializable {
 
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6491209788304101875L;
 
 	@Id
 	@GeneratedValue
@@ -56,6 +57,7 @@ public class UserDetails implements Serializable {
 	private String mpin;
 
 	@JsonProperty(access = Access.WRITE_ONLY)
+	@Column(unique = true)
 	private String barcode;
 
 	private String secondaryMobileNumber;
@@ -71,10 +73,11 @@ public class UserDetails implements Serializable {
 
 	private String reason;
 
+	@Column(unique = true)
 	private String imeiNum;
-	
+
 	private Boolean gpsTracking;
-	
+
 	private Boolean emergency;
 
 	@CreationTimestamp
@@ -85,9 +88,8 @@ public class UserDetails implements Serializable {
 
 	public UserDetails() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	public UserDetails(Long id, String fullName, String userName, String password, String emailId, String mobileNumber,
 			String otp, String mpin, String barcode, String secondaryMobileNumber, Role role, int isActive,
 			int approveStatus, Long approvedBy, String reason, String imeiNum, Boolean gpsTracking, Boolean emergency,
@@ -114,7 +116,6 @@ public class UserDetails implements Serializable {
 		this.insertedDate = insertedDate;
 		this.updatedDate = updatedDate;
 	}
-
 
 	@Override
 	public String toString() {
@@ -285,6 +286,4 @@ public class UserDetails implements Serializable {
 	public void setUpdatedDate(LocalDateTime updatedDate) {
 		this.updatedDate = updatedDate;
 	}
-
-	
 }

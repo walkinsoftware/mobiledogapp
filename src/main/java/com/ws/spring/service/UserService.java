@@ -14,12 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ws.app.cachedata.CacheData;
+import com.ws.common.util.ClientResponseUtil;
 import com.ws.common.util.Constants;
 import com.ws.common.util.StringUtil;
 import com.ws.spring.dto.UserActivationProcessDto;
 import com.ws.spring.dto.UserDto;
 import com.ws.spring.dto.UserOtpBean;
 import com.ws.spring.email.service.AppMailSender;
+import com.ws.spring.exception.ClientResponseBean;
+import com.ws.spring.exception.ResponseCodes;
 import com.ws.spring.exception.UserDetailNotFoundException;
 import com.ws.spring.model.Role;
 import com.ws.spring.model.UserDetails;
@@ -40,9 +43,9 @@ public class UserService implements Constants {
 	@Autowired
 	AppSmsSender appSmsSender;
 
-	public UserDetails userRegistration(UserDetails userDetails) {
-		if (null == userDetails) {
-			return null;
+	public ClientResponseBean userRegistration(UserDetails userDetails) {
+		if (null == verifyUserOtp(userDetails.getMobileNumber(), userDetails.getOtp())) {
+			return ClientResponseUtil.getUserOptValidationFailed();
 		}
 		Role role = new Role(4L, "User");
 		userDetails.setRole(role);
@@ -52,6 +55,10 @@ public class UserService implements Constants {
 		// String encrypt = AESAlgorithm.encrypt(userDetails.getUserName() + "-" +
 		// userDetails.getEmailId(),userDetails.getUserName());
 		// userDetails.setHashcode(encrypt);
+		// Verify user Bar code and Imei number is exist
+		if (userRepository.isBarCodeExist(userDetails.getBarcode())) {
+			return ClientResponseUtil.getErrorResponse(ResponseCodes.USER_BARCODE_EXIST);
+		}
 		UserDetails user1 = userRepository.save(userDetails);
 		logger.info("User registration successsfull userId : {}", user1.getId());
 		if (!StringUtil.checkNullOrEmpty(userDetails.getEmailId())) {
@@ -59,7 +66,9 @@ public class UserService implements Constants {
 		}
 		// Send sms to user
 		// Send mail to admin
-		return user1;
+		ClientResponseBean clientResponseBean = new ClientResponseBean(ResponseCodes.USER_REGISTRATION);
+		clientResponseBean.setData(user1);
+		return clientResponseBean;
 	}
 
 	public UserDetails verifyHashCode(String userName, String hashCode) {
@@ -264,5 +273,12 @@ public class UserService implements Constants {
 
 	public void updateUserProfile(@RequestBody UserDetails userDetails) {
 		userRepository.save(userDetails);
+	}
+
+	public void emergencyNotification(String mobileNumber) {
+		UserDetails userDetails = userRepository.findUserDetailsByMobileNumber(mobileNumber);
+		if (null != userDetails && StringUtil.checkNullOrEmpty(userDetails.getSecondaryMobileNumber())) {
+			appSmsSender.sendEmergencyNotificationSms(userDetails);
+		}
 	}
 }

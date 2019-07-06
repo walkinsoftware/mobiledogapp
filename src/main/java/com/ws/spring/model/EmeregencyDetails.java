@@ -1,23 +1,27 @@
 package com.ws.spring.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
-@Table(name = "t_ws_user_gps_details")
-public class GpsTrackingDetails implements Serializable {
+@Table(name = "t_ws_emeregency_details")
+@EntityListeners(AuditingEntityListener.class)
+public class EmeregencyDetails implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5157069085793687027L;
+	private static final long serialVersionUID = 8815811066375046638L;
 
 	@Id
 	@GeneratedValue
@@ -32,21 +36,12 @@ public class GpsTrackingDetails implements Serializable {
 	private String lattitude;
 
 	@CreationTimestamp
-	private Date insertedTime;
+	private Date insertedDate;
 
-	public GpsTrackingDetails() {
-		super();
-	}
+	private Blob image;
 
-	public GpsTrackingDetails(Long id, String mobileNumber, String imeiNum, String langitude, String lattitude,
-			Date insertedTime) {
+	public EmeregencyDetails() {
 		super();
-		this.id = id;
-		this.mobileNumber = mobileNumber;
-		this.imeiNum = imeiNum;
-		this.longitude = langitude;
-		this.lattitude = lattitude;
-		this.insertedTime = insertedTime;
 	}
 
 	public Long getId() {
@@ -89,23 +84,19 @@ public class GpsTrackingDetails implements Serializable {
 		this.lattitude = lattitude;
 	}
 
-	public Date getInsertedTime() {
-		return insertedTime;
+	public Date getInsertedDate() {
+		return insertedDate;
 	}
 
-	public void setInsertedTime(Date insertedTime) {
-		this.insertedTime = insertedTime;
+	public void setInsertedDate(Date insertedDate) {
+		this.insertedDate = insertedDate;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Blob getImage() {
+		return image;
 	}
 
-	@Override
-	public String toString() {
-		return String.format(
-				"UserGpsTrackingDetails [id=%s, mobileNumber=%s, imeiNum=%s, langitude=%s, lattitude=%s, insertedTime=%s]",
-				id, mobileNumber, imeiNum, longitude, lattitude, insertedTime);
+	public void setImage(Blob image) {
+		this.image = image;
 	}
-
 }

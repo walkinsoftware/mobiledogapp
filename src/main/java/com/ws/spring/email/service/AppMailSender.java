@@ -47,7 +47,7 @@ public class AppMailSender {
 
 			EmailBean email = new EmailBean(userDetails.getEmailId(), "User Registration Confiration", message);
 			email.setHtml(true);
-			emailServiceImpl.send(email);
+			// emailServiceImpl.send(email);
 			logger.info("User {} RegistrationCOnfiration mail Sending process End.", userDetails.getUserName());
 		} catch (Exception e) {
 			logger.error("Excpetion occured while sending registtration mail to user : {}", e.getMessage(), e);
@@ -77,7 +77,7 @@ public class AppMailSender {
 			EmailBean email = new EmailBean(userOptBean.getEmailId(), userOptBean.getMobileNumber(),
 					"User OTP Verification", message);
 			email.setHtml(true);
-			emailServiceImpl.send(email);
+			// emailServiceImpl.send(email);
 			logger.info("User {} forgot password mail Sending process End.", userOptBean.getUserName());
 		} catch (Exception e) {
 			logger.error("Excpetion occured while sending registtration mail to user : {}", e.getMessage(), e);
@@ -98,7 +98,7 @@ public class AppMailSender {
 
 			EmailBean email = new EmailBean(userDetails.getEmailId(), "User OTP Verification", message);
 			email.setHtml(true);
-			emailServiceImpl.send(email);
+			// emailServiceImpl.send(email);
 			logger.info("User {} change password mail Sending process End.", userDetails.getUserName());
 		} catch (Exception e) {
 			logger.error("Excpetion occured while sending registtration mail to user : {}", e.getMessage(), e);

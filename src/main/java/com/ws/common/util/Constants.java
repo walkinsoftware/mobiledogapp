@@ -7,7 +7,8 @@ public interface Constants {
 	 */
 	 int ROLE_ID_SUPERADMIN = 1;
 	 int ROLE_ID_ADMIN = 2;
-	 int ROLE_ID_USER = 3;
+	 int ROLE_ID_SUPER_USER = 3;
+	 int ROLE_ID_GENERAL_USER = 4;
 	
 	/**
 	 * isActive parameter descriptions
