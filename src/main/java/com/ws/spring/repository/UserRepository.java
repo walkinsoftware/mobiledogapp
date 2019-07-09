@@ -49,5 +49,4 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	@Query("SELECT u FROM UserDetails u WHERE u.userName LIKE :userName or u.fullName LIKE :userName and u.mobileNumber LIKE :mobileNumber")
 	List<UserDetails> queryUserDetailsByUserNameOrMobile(@Param("userName") String userName,
 			@Param("mobileNumber") String mobileNumber);
-
 }

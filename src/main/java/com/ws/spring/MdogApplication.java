@@ -11,25 +11,28 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 
 import com.ws.spring.email.service.EmailServiceImpl;
 
+/**
+ * @author admin
+ *
+ */
 @SpringBootApplication
 @EnableJpaAuditing
 @Configuration
 @EnableJdbcHttpSession
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
-@Resource(name = "jdbc/walkindbDS", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS")
 public class MdogApplication extends SpringBootServletInitializer implements ApplicationRunner {
 
 	Logger logger = LogManager.getLogger(this.getClass().getName());
@@ -45,6 +48,13 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 	}
 
 	@Bean
+	public TaskScheduler taskScheduler() {
+		return new ConcurrentTaskScheduler(); // single threaded by default
+	}
+
+	@Bean
+	@Profile({ "prod", "stage" })
+	@Resource(name = "jdbc/walkindbDS", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS")
 	public JndiDataSourceLookup jndDataSource() {
 		JndiDataSourceLookup dataSource = null;
 		try {
@@ -66,9 +76,8 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 
 	@Override
 	public void run(ApplicationArguments applicationArguments) {
-		logger.info("1 Application started without any error Date : {}", new Date());
+		logger.warn("Application started with Active Profile is : {} and Date : {} and ", activeProfile, new Date());
 		try {
-			logger.info("Application SPring boot Active Profile is : {}", activeProfile);
 			if ("prod".equals(activeProfile))
 				emailServiceImpl.sendSimpleMessage("paramanagowda.patil@gmail.com", "Test Mdog App Mail",
 						"Test Mdog App Mail");

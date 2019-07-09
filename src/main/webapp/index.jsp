@@ -184,7 +184,6 @@ to {
     <![endif]-->
 </head>
 <body id="home">
-
 	<!-- ****************************** Preloader ************************** -->
 
 	<div id="preloader"></div>

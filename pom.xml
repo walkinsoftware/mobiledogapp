@@ -250,6 +250,15 @@
 
 		</profile>
 		<profile>
+			<id>stage</id>
+			<build>
+				<finalName>ROOT</finalName>
+			</build>
+			<properties>
+				<activatedProperties>prod</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
 			<id>prod</id>
 			<build>
 				<finalName>ROOT</finalName>
@@ -261,5 +270,6 @@
 				<activatedProperties>prod</activatedProperties>
 			</properties>
 		</profile>
+
 	</profiles>
 </project>

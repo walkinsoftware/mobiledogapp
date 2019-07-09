@@ -1,5 +1,7 @@
 package com.ws.spring.web.controller;
 
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ws.common.util.Constants;
 import com.ws.common.util.StringUtil;
+import com.ws.spring.dto.UserActivationProcessDto;
 import com.ws.spring.dto.UserDto;
 import com.ws.spring.model.UserDetails;
 import com.ws.spring.service.UserService;
@@ -50,12 +53,13 @@ public class LoginController {
 			if (null != userDetails) {
 
 				modelMap.addAttribute("loginUser", filterUserDetailsFields(userDetails));
-				if (Constants.ROLE_ID_ADMIN == userDetails.getRole().getId()) {
-					return "admin";
-				}
-				if (Constants.ROLE_ID_GENERAL_USER == userDetails.getRole().getId()) {
-					return "user";
-				}
+				modelMap.addAttribute("registeredUserList", userService.queryInactiveUsers());
+				return "admin";
+				/*
+				 * if (Constants.ROLE_ID_ADMIN == userDetails.getRole().getId()) { return
+				 * "admin"; } if (Constants.ROLE_ID_GENERAL_USER ==
+				 * userDetails.getRole().getId()) { return "user"; }
+				 */
 			} else {
 				logger.warn("Loggin failed due to invalid credentials for the user : {} ", username);
 				modelMap.addAttribute("errorMessage", "Invalid credentials!!");
@@ -108,6 +112,23 @@ public class LoginController {
 			mav.addObject("userDetailsList", userService.queryAllUserList());
 		}
 		return mav;
+	}
+
+	/**
+	 * 
+	 * @param userIds
+	 * @param operationType APPROVE or REJECT
+	 * @param reason
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping(value = "/userActivationProcess", method = RequestMethod.GET)
+	public ModelMap approveUser(@RequestParam("ids") Long[] userIds,
+			@RequestParam("operationType") String operationType, @RequestParam("reason") String reason,
+			ModelMap modelMap) {
+		UserActivationProcessDto activationProcessDto = new UserActivationProcessDto(userIds, operationType, reason);
+		userService.userActivationProcess(activationProcessDto);
+		return modelMap;
 	}
 
 	private LoginUser filterUserDetailsFields(UserDetails userDetails) {

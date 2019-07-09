@@ -255,7 +255,7 @@ public class UserService implements Constants {
 	public void userActivationProcess(UserActivationProcessDto activationProcessDto) {
 
 		int approveStatus = 1;
-		if ("REJECT".equals(activationProcessDto.getOperationType())) {
+		if ("REJECT".equalsIgnoreCase(activationProcessDto.getOperationType())) {
 			approveStatus = 2;
 		}
 		Set<Long> set = new HashSet<>(Arrays.asList(activationProcessDto.getUserIds()));
