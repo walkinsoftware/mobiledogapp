@@ -17,7 +17,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
@@ -30,7 +29,6 @@ import com.ws.spring.email.service.EmailServiceImpl;
  *
  */
 @SpringBootApplication
-@EnableJpaAuditing
 @Configuration
 @EnableJdbcHttpSession
 public class MdogApplication extends SpringBootServletInitializer implements ApplicationRunner {

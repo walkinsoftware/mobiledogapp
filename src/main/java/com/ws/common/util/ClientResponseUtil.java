@@ -9,7 +9,7 @@ import com.ws.spring.model.UserDetails;
 public class ClientResponseUtil {
 
 	public static ClientResponseBean userRegistrationSuccess(UserDetails userDetails) {
-		
+
 		return new ClientResponseBean(HttpStatus.CREATED.value(), "SUUCESS", "User Registration Completed.",
 				userDetails, "");
 	}
@@ -52,6 +52,10 @@ public class ClientResponseUtil {
 
 	public static ClientResponseBean getErrorResponse(ResponseCodes responseCode) {
 		return new ClientResponseBean(responseCode.getResponseCode(), "FAILED", "", responseCode.getErrorMessage());
+	}
+
+	public static ClientResponseBean getUserDetailNotFoundResponse(String userName) {
+		return new ClientResponseBean(1005, "FAILED", "", userName + " - User Details not found ");
 	}
 
 }

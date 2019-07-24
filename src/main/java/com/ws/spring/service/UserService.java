@@ -160,11 +160,16 @@ public class UserService implements Constants {
 			// appSmsSender.sendUserOtp(userOtpBean);
 			return Boolean.TRUE;
 		}
-		throw new UserDetailNotFoundException("User Details not found");
+		return Boolean.FALSE;
 	}
 
 	public boolean resetPassword(UserDto userDto) {
-		UserDetails userDetailsFromDb = userRepository.queryLoginUserDetails(userDto.getUsername());
+		String username = userDto.getUsername();
+		if (null == verifyUserOtp(username, userDto.getOtp())) {
+
+			return Boolean.FALSE;
+		}
+		UserDetails userDetailsFromDb = userRepository.queryLoginUserDetails(username);
 		if (null != userDetailsFromDb) {
 			userDetailsFromDb.setPassword(userDto.getNewPassword());
 			// userDetailsFromDb.setUpdatedDate(DateUtil.convertToLocalDateTimeViaInstant(userDto.getCurrentTime()));
@@ -177,6 +182,10 @@ public class UserService implements Constants {
 	}
 
 	public boolean changePassword(UserDto userDto) {
+		String username = userDto.getUsername();
+		if (null == verifyUserOtp(username, userDto.getOtp())) {
+			return Boolean.FALSE;
+		}
 		UserDetails userDetailsFromDb = userRepository.queryLoginUserDetails(userDto.getUsername());
 		if (null != userDetailsFromDb) {
 			if (userDetailsFromDb.getPassword().equals(userDto.getCurrentPassword())) {
@@ -248,6 +257,10 @@ public class UserService implements Constants {
 		return userRepository.findAll();
 	}
 
+	public List<UserDetails> queryUserListByInsertedDate(Date fromDate, Date toDate) {
+		return userRepository.queryUserListByInsertedDate(fromDate, toDate);
+	}
+
 	public List<UserDetails> queryInactiveUsers() {
 		return userRepository.queryInactiveUsers();
 	}
@@ -262,8 +275,8 @@ public class UserService implements Constants {
 		userRepository.updateUserActivation(set, approveStatus, approveStatus, activationProcessDto.getReason());
 	}
 
-	public void setUserMpin(String mobileNumber, String mpin) {
-		userRepository.updateMpin(mobileNumber, mpin);
+	public void setUserMpin(String userName, String mpin) {
+		userRepository.updateMpin(userName, mpin);
 	}
 
 	public List<UserDetails> queryUserDetailsByUserNameOrMobile(String userName, String mobileNumber) {

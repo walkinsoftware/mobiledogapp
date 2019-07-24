@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ import com.ws.spring.dto.UserActivationProcessDto;
 import com.ws.spring.dto.UserDto;
 import com.ws.spring.dto.UserOtpBean;
 import com.ws.spring.exception.ClientResponseBean;
+import com.ws.spring.exception.UserDetailNotFoundException;
 import com.ws.spring.model.UserDetails;
 import com.ws.spring.service.UserService;
 
@@ -74,7 +76,7 @@ public class HomeRestController {
 		logger.debug("userRegistration for UserName : {}", user.getUserName());
 		try {
 			return userService.userRegistration(user);
-			
+
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User Registration got an Error", ex);
@@ -108,8 +110,12 @@ public class HomeRestController {
 	@ApiOperation(value = "Generate Otp for validation", response = ClientResponseBean.class)
 	@PostMapping("/v1/generateOtp")
 	public ClientResponseBean generateOtp(@RequestBody UserOtpBean userOptBean) {
-		logger.debug("generate Otp for MobileNumber : {}", userOptBean.getMobileNumber());
 		try {
+			String userName = userOptBean.getMobileNumber();
+			if (StringUtil.checkNullOrEmpty(userName)) {
+				userName = userOptBean.getUserName();
+			}
+			logger.debug("generate Otp for userName : {}", userName);
 			UserOtpBean userOptBeanReturn = null;
 			if (!StringUtil.checkNullOrEmpty(userOptBean.getActivity())
 					&& Constants.REGISTRATION_STR.equals(userOptBean.getActivity())) {
@@ -120,7 +126,7 @@ public class HomeRestController {
 			if (null != userOptBeanReturn) {
 				return ClientResponseUtil.sentOptSucces();
 			}
-			return ClientResponseUtil.sentOptFailed();
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not FOund", new UserDetailNotFoundException("User Not Found"));
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
 			throw new ResponseStatusException(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS, "Exception Occured", ex);
@@ -142,12 +148,12 @@ public class HomeRestController {
 		}
 	}
 
-	@GetMapping("/v1/setUserMpin")
-	public ClientResponseBean setUserMpin(@RequestParam(name = "mobileNumber") String mobileNumber,
-			@RequestParam(name = "mpin") String mpin) {
-		logger.debug("setUserMpin for mobileNumber : {}", mobileNumber);
+	@PostMapping("/v1/setUserMpin")
+	public ClientResponseBean setUserMpin(@RequestBody UserDto userDto) {
+		String username = userDto.getUsername();
+		logger.debug("setUserMpin for user name : {}", username);
 		try {
-			userService.setUserMpin(mobileNumber, mpin);
+			userService.setUserMpin(username, userDto.getMpin());
 			return ClientResponseUtil.getSuccessResponse();
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
@@ -155,15 +161,16 @@ public class HomeRestController {
 		}
 	}
 
-	@GetMapping("/v1/forgotPassword")
-	public ClientResponseBean forgotPassword(@RequestParam(name = "mobileNumber") String mobileNumber) {
-		logger.debug("forgotPassword for mobileNumber : {}", mobileNumber);
+	@PostMapping("/v1/forgotPassword")
+	public ResponseEntity<ClientResponseBean> forgotPassword(@RequestBody UserDto userDto) {
+		String username = userDto.getUsername();
+		logger.debug("forgotPassword for username : {}", username);
 		try {
-			if (userService.forgotPassword(mobileNumber)) {
-				return ClientResponseUtil.sentOptSucces();
+			if (userService.forgotPassword(username)) {
+				return new ResponseEntity<>(ClientResponseUtil.sentOptSucces(),HttpStatus.OK);
 			}
-			logger.warn("forgotPassword : User Details not found for mobileNUmber : {}", mobileNumber);
-			return ClientResponseUtil.sentOptFailed();
+			logger.warn("forgotPassword : User Details not found for username : {}", username);
+			return new ResponseEntity<>(ClientResponseUtil.getUserDetailNotFoundResponse(username),HttpStatus.NOT_FOUND);
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
 			throw new ResponseStatusException(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS, "Exception Occured", ex);
@@ -173,7 +180,6 @@ public class HomeRestController {
 	@PostMapping("/v1/resetPassword")
 	public ClientResponseBean resetPassword(@RequestBody UserDto userDto) {
 		logger.debug("resetPassword for user : {}", userDto.getUsername());
-		// verify Otp
 		try {
 			if (userService.resetPassword(userDto)) {
 				return ClientResponseUtil.getSuccessResponse();
@@ -239,10 +245,9 @@ public class HomeRestController {
 	@PostMapping("/v1/userLoginMpin")
 	@ApiOperation(value = "User Login using Pin", response = ClientResponseBean.class)
 	@ApiParam(required = true, value = "username")
-	@ApiResponses(value = { @ApiResponse(code = 1000, message= "User Login success."),
-			@ApiResponse(code = 1001, message= "User Login Failed."),
-		@ApiResponse(code = 500, message = "Internal Server Error"),
-			})
+	@ApiResponses(value = { @ApiResponse(code = 1000, message = "User Login success."),
+			@ApiResponse(code = 1001, message = "User Login Failed."),
+			@ApiResponse(code = 500, message = "Internal Server Error"), })
 	public ClientResponseBean userLoginMpin(@RequestBody UserDto userDto) {
 		logger.debug("userLoginMpin for user : {}", userDto.getUsername());
 		try {
@@ -287,7 +292,7 @@ public class HomeRestController {
 	public UserDetails getUserProfile(@RequestParam("userName") String userName) {
 
 		UserDetails userDetails = userService.queryLoginUserDetails(userName);
-		
+
 		return userDetails;
 	}
 

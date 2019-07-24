@@ -5,17 +5,14 @@ import java.sql.Blob;
 import java.sql.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Table(name = "t_ws_emeregency_details")
-@EntityListeners(AuditingEntityListener.class)
 public class EmeregencyDetails implements Serializable {
 
 	/**

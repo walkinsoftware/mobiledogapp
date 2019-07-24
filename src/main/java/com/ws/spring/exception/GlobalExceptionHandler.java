@@ -25,10 +25,18 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> globleExcpetionHandler(Exception ex, WebRequest request) {
-		logger.error("GlobleExcpetionHandler occured at {} and error is  {}", request.getContextPath(),
-				ex.getMessage(), ex);
+		logger.error("GlobleExcpetionHandler occured at {} and error is  {}", request.getContextPath(), ex.getMessage(),
+				ex);
 		ClientResponseBean response = ClientResponseUtil.getErrorResponse();
 		return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	/*
+	 * @ExceptionHandler(UserDetailNotFoundException.class) public ResponseEntity<?>
+	 * userDetailNotFoundExcpetionHandler(Exception ex, WebRequest request) {
+	 * logger.error("GlobleExcpetionHandler occured at {} and error is  {}",
+	 * request.getContextPath(), ex.getMessage(), ex); ClientResponseBean response =
+	 * ClientResponseUtil.getUserDetailNotFoundResponse(); return new
+	 * ResponseEntity<>(response, HttpStatus.NOT_FOUND); }
+	 */
 }

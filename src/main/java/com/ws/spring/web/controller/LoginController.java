@@ -1,6 +1,6 @@
 package com.ws.spring.web.controller;
 
-import java.util.Set;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -103,15 +103,14 @@ public class LoginController {
 		return model;
 	}
 
-	@RequestMapping(value = "/queryUserDetailsList", method = RequestMethod.GET)
-	public ModelAndView queryUserDetailsList(@RequestParam String userName, @RequestParam String mobileNumber) {
-		ModelAndView mav = new ModelAndView("userdetailslist");
+	@RequestMapping(value = "/queryUserDetail", method = RequestMethod.GET)
+	public ModelMap queryUserDetailsList(@RequestParam String userName, @RequestParam String mobileNumber,
+			ModelMap modelMap) {
 		if (!(StringUtil.checkNullOrEmpty(userName) || StringUtil.checkNullOrEmpty(mobileNumber))) {
-			mav.addObject("userDetailsList", userService.queryUserDetailsByUserNameOrMobile(userName, mobileNumber));
+			modelMap.addAttribute("userDetailsList", userService.queryUserDetailsByUserNameOrMobile(userName, mobileNumber));
 		} else {
-			mav.addObject("userDetailsList", userService.queryAllUserList());
 		}
-		return mav;
+		return modelMap;
 	}
 
 	/**
@@ -122,12 +121,26 @@ public class LoginController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping(value = "/userActivationProcess", method = RequestMethod.GET)
+	@RequestMapping(value = "/userActivationProcess", method = RequestMethod.POST)
 	public ModelMap approveUser(@RequestParam("ids") Long[] userIds,
 			@RequestParam("operationType") String operationType, @RequestParam("reason") String reason,
 			ModelMap modelMap) {
 		UserActivationProcessDto activationProcessDto = new UserActivationProcessDto(userIds, operationType, reason);
-		userService.userActivationProcess(activationProcessDto);
+		try {
+			userService.userActivationProcess(activationProcessDto);
+			modelMap.addAttribute("msg", operationType + "is succeffully submited");
+		} catch (Exception e) {
+			logger.error("Exception occure while user activation process userIds:{}, operationType:{}, reason:{} ",
+					userIds, operationType, reason, e.getMessage());
+			modelMap.addAttribute("errmsg", operationType + "is failled");
+		}
+		return modelMap;
+	}
+
+	@RequestMapping(value = "/queryUsersList", method = RequestMethod.POST)
+	public ModelMap queryUsersList(@RequestParam("status") String status, @RequestParam("fromDate") Date fromDate,
+			@RequestParam("toDate") Date toDate, ModelMap modelMap) {
+		modelMap.addAttribute("userDetailsList", userService.queryAllUserList());
 		return modelMap;
 	}
 

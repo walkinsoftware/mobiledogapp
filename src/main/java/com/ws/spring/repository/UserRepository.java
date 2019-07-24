@@ -1,5 +1,6 @@
 package com.ws.spring.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -43,10 +44,14 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	@Modifying(clearAutomatically = true)
 	@Transactional
-	@Query("UPDATE UserDetails u set u.mpin = :mpin where u.mobileNumber = :mobileNumber")
-	void updateMpin(@Param("mobileNumber") String mobileNumber, @Param("mpin") String mpin);
+	@Query("UPDATE UserDetails u set u.mpin = :mpin where u.userName = :userName")
+	void updateMpin(@Param("userName") String userName, @Param("mpin") String mpin);
 
 	@Query("SELECT u FROM UserDetails u WHERE u.userName LIKE :userName or u.fullName LIKE :userName and u.mobileNumber LIKE :mobileNumber")
 	List<UserDetails> queryUserDetailsByUserNameOrMobile(@Param("userName") String userName,
 			@Param("mobileNumber") String mobileNumber);
+
+	@Query("SELECT u FROM UserDetails u WHERE u.insertedDate between :fromDate and :toDate")
+	List<UserDetails> queryUserListByInsertedDate(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+
 }

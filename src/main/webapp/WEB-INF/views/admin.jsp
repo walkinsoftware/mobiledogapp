@@ -40,6 +40,7 @@
 <label>Login USer Details</label></br>
 <label>${loginUser.username}</label>
 <label >${loginUser.roleId}</label>
+<label >${msg}</label>
 
 </br>
 <form:form method="post" action="registeredUserList" modelAttribute="user">

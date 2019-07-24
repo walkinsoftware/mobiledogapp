@@ -2,6 +2,7 @@ package com.ws.spring.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -14,11 +15,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * https://dzone.com/articles/spring-boot-2-restful-api-documentation-with-swagg
+ * 
  * @author admin
  *
  */
 @Configuration
 @EnableSwagger2
+@Profile({ "dev", "stage" })
 public class Swagger2Config {
 
 	@Bean
@@ -29,10 +32,10 @@ public class Swagger2Config {
 	}
 
 	private ApiInfo apiEndPointsInfo() {
-		return new ApiInfoBuilder().title("Mobiledog app REST API").description("User Management REST API").termsOfServiceUrl("https://mobiledog.in")
+		return new ApiInfoBuilder().title("Mobiledog app REST API").description("User Management REST API")
+				.termsOfServiceUrl("https://mobiledog.in")
 				.contact(new Contact("Ramesh Patil", "www.mobiledog.in", "supporttest@mobiledog.in"))
-				.license("walkinsoftware.in").licenseUrl("www.walkinsoftware.in").version("1.0.0")
-				.build();
+				.license("walkinsoftware.in").licenseUrl("www.walkinsoftware.in").version("1.0.0").build();
 	}
 
 }

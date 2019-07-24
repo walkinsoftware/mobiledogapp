@@ -21,14 +21,14 @@ public class EmailTemplate {
 		try {
 			this.template = loadTemplate(templateId);
 		} catch (Exception e) {
-			this.template = Constants.BLANK;
+			this.template = Constants.EMPTY_STR;
 		}
 	}
 
 	private String loadTemplate(String templateId) throws Exception {
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource("email-templates/" + templateId).getFile());
-		String content = Constants.BLANK;
+		String content = Constants.EMPTY_STR;
 		try {
 			content = new String(Files.readAllBytes(file.toPath()));
 		} catch (IOException e) {
@@ -45,7 +45,7 @@ public class EmailTemplate {
 				cTemplate = cTemplate.replace("{{" + entry.getKey() + "}}", entry.getValue());
 			}
 		}
-		
+
 		return cTemplate;
 	}
 
@@ -57,8 +57,7 @@ public class EmailTemplate {
 	}
 
 	/**
-	 * @param templateId
-	 *            the templateId to set
+	 * @param templateId the templateId to set
 	 */
 	public void setTemplateId(String templateId) {
 		this.templateId = templateId;
@@ -72,8 +71,7 @@ public class EmailTemplate {
 	}
 
 	/**
-	 * @param template
-	 *            the template to set
+	 * @param template the template to set
 	 */
 	public void setTemplate(String template) {
 		this.template = template;
@@ -87,13 +85,10 @@ public class EmailTemplate {
 	}
 
 	/**
-	 * @param replacementParams
-	 *            the replacementParams to set
+	 * @param replacementParams the replacementParams to set
 	 */
 	public void setReplacementParams(Map<String, String> replacementParams) {
 		this.replacementParams = replacementParams;
 	}
-
-
 
 }

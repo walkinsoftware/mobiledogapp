@@ -5,47 +5,48 @@ public interface Constants {
 	/**
 	 * User Role description
 	 */
-	 int ROLE_ID_SUPERADMIN = 1;
-	 int ROLE_ID_ADMIN = 2;
-	 int ROLE_ID_SUPER_USER = 3;
-	 int ROLE_ID_GENERAL_USER = 4;
-	
+	int ROLE_ID_SUPERADMIN = 1;
+	int ROLE_ID_ADMIN = 2;
+	int ROLE_ID_SUPER_USER = 3;
+	int ROLE_ID_GENERAL_USER = 4;
+
 	/**
 	 * isActive parameter descriptions
 	 */
-	 int REGISTERED = 0;
-	 int ACTIVE = 1;
-	 int BLOCKED = 2;
-	
+	int REGISTERED = 0;
+	int ACTIVE = 1;
+	int REJECTED = 2;
+	int BLOCKED = 3;
+
 	/** The Constant BLANK. */
-	 String BLANK = "";
-	
+	String EMPTY_STR = "";
+
 	/** The Constant COLON. */
-	 String COLON = " : ";
-	
+	String COLON = " : ";
+
 	/** The Constant DASH. */
-	 String DASH = " - ";
-	
+	String DASH = " - ";
+
 	/** The Constant KEY_TXNID. */
-	 String KEY_TXNID = "TXNID";
-	
+	String KEY_TXNID = "TXNID";
+
 	/** The Constant XPATH_TXNID. */
-	 String XPATH_TXNID = "//transcationId";
-	
+	String XPATH_TXNID = "//transcationId";
+
 	/** The Constant ENTRY. */
-	 String ENTRY = "Entry";
-	
+	String ENTRY = "Entry";
+
 	/** The Constant EXIT. */
-	 String EXIT = "Exit";
-	
+	String EXIT = "Exit";
+
 	/** COnstant int numbers */
-	 int INT_SIX = 6;
-	
-	 String REGISTRATION_STR = "REGISTRATION";
-	 
-	 String LOGIN_BY_MPIN = "LOGIN_BY_MPIN";
-	 
-	 String LOGIN_BY_OTP = "LOGIN_BY_OTP";
-	 
-	 String LOGIN_BY_PASSWORD = "LOGIN_BY_PASSWORD";
+	int INT_SIX = 6;
+
+	String REGISTRATION_STR = "REGISTRATION";
+
+	String LOGIN_BY_MPIN = "LOGIN_BY_MPIN";
+
+	String LOGIN_BY_OTP = "LOGIN_BY_OTP";
+
+	String LOGIN_BY_PASSWORD = "LOGIN_BY_PASSWORD";
 }

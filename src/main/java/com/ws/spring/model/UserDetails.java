@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -13,7 +12,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -24,7 +22,6 @@ import io.swagger.annotations.ApiModelProperty;
 //Table - User
 @Entity
 @Table(name = "t_ws_user")
-@EntityListeners(AuditingEntityListener.class)
 @ApiModel(description = "All details about the User")
 public class UserDetails implements Serializable {
 
