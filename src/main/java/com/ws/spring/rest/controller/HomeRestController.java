@@ -39,7 +39,7 @@ import io.swagger.annotations.ApiResponses;
 //@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/home")
-@Api(value = "User Management System", description = "Operations pertaining to user in User Management System")
+@Api(value = "User Management System", tags = "Operations pertaining to user in User Management System")
 public class HomeRestController {
 
 	@Autowired
@@ -126,7 +126,8 @@ public class HomeRestController {
 			if (null != userOptBeanReturn) {
 				return ClientResponseUtil.sentOptSucces();
 			}
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not FOund", new UserDetailNotFoundException("User Not Found"));
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not FOund",
+					new UserDetailNotFoundException("User Not Found"));
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
 			throw new ResponseStatusException(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS, "Exception Occured", ex);
@@ -167,10 +168,11 @@ public class HomeRestController {
 		logger.debug("forgotPassword for username : {}", username);
 		try {
 			if (userService.forgotPassword(username)) {
-				return new ResponseEntity<>(ClientResponseUtil.sentOptSucces(),HttpStatus.OK);
+				return new ResponseEntity<>(ClientResponseUtil.sentOptSucces(), HttpStatus.OK);
 			}
 			logger.warn("forgotPassword : User Details not found for username : {}", username);
-			return new ResponseEntity<>(ClientResponseUtil.getUserDetailNotFoundResponse(username),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(ClientResponseUtil.getUserDetailNotFoundResponse(username),
+					HttpStatus.NOT_FOUND);
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
 			throw new ResponseStatusException(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS, "Exception Occured", ex);
@@ -275,6 +277,9 @@ public class HomeRestController {
 		}
 	}
 
+	@ApiOperation(value = "User activation process ")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "ok"),
+			@ApiResponse(code = 403, message = "An unexpected error occurred") })
 	@PostMapping("/v1/userActivationProcess")
 	public ClientResponseBean userActivationProcess(@RequestBody UserActivationProcessDto activationProcessDto) {
 		logger.debug("userActivationProcess ");

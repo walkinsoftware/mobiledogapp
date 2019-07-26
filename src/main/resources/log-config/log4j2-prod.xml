@@ -9,7 +9,7 @@
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
-		<RollingFile name="htmlLogger" fileName="${catalina.base}/logs/mdog-app-info.html"
+		<RollingFile name="htmlLogger" fileName="/home/mobiledo/tomcat/logs/mdog-app-info.html"
                      filePattern="../logs/mdog-app-info-%d{yyyy-MM-dd}-%i.html">
             <HTMLLayout charset="UTF-8" title="MobileDog Info Logs" locationInfo="true" />
             <Policies>
@@ -18,8 +18,8 @@
             </Policies>
         </RollingFile>
         <!-- Rolling File Appender path : /home/mobiledo/tomcat-->
-        <RollingFile name="FileAppender" fileName="${catalina.base}/logs/mdog-app.log"
-                     filePattern="${catalina.base}/logs/mdog-app-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="FileAppender" fileName="/home/mobiledo/tomcat/logs/mdog-app.log"
+                     filePattern="/home/mobiledo/tomcat/logs/mdog-app-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
                 <Pattern>${LOG_PATTERN}</Pattern>
             </PatternLayout>
@@ -30,8 +30,8 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
         
-        <RollingFile name="SpringLogAppender" fileName="${catalina.base}/logs/spring-mdog-app.log"
-            filePattern="${catalina.base}/logs/spring-mdog-app-%d{yyyy-MM-dd}-%i.log" >
+        <RollingFile name="SpringLogAppender" fileName="/home/mobiledo/tomcat/logs/spring-mdog-app.log"
+            filePattern="/home/mobiledo/tomcat/logs/spring-mdog-app-%d{yyyy-MM-dd}-%i.log" >
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="19500KB" />

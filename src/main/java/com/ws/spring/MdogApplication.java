@@ -1,6 +1,8 @@
 package com.ws.spring;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.annotation.Resource;
 
@@ -51,9 +53,43 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 	}
 
 	@Bean
-	@Profile({ "prod", "stage" })
+	@Profile("prod")
 	@Resource(name = "jdbc/walkindbDS", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS")
 	public JndiDataSourceLookup jndDataSource() {
+		JndiDataSourceLookup dataSource = null;
+		try {
+			JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
+			dataSourceLookup.getDataSource("java:comp/env/jdbc/walkindbDS");
+			// JndiTemplate jndi = new JndiTemplate();
+			// dataSource = jndi.lookup("java:comp/env/jdbc/walkindbDS", DataSource.class);
+			logger.info("JDNI Datasource Connection success : jdbc/walkindbDS");
+		} catch (Exception e) {
+			logger.error("NamingException for java:comp/env/jdbc/yourname", e);
+		}
+		return dataSource;
+	}
+
+	@Bean
+	@Profile("stage")
+	@Resource(name = "jdbc/walkindbDS-stage", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS-stage")
+	public JndiDataSourceLookup jndStageDataSource() {
+		JndiDataSourceLookup dataSource = null;
+		try {
+			JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
+			dataSourceLookup.getDataSource("java:comp/env/jdbc/walkindbDS");
+			// JndiTemplate jndi = new JndiTemplate();
+			// dataSource = jndi.lookup("java:comp/env/jdbc/walkindbDS", DataSource.class);
+			logger.info("JDNI Datasource Connection success : jdbc/walkindbDS");
+		} catch (Exception e) {
+			logger.error("NamingException for java:comp/env/jdbc/yourname", e);
+		}
+		return dataSource;
+	}
+
+	@Bean
+	@Profile("dev")
+	@Resource(name = "jdbc/walkindbDS-dev", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS-dev")
+	public JndiDataSourceLookup jndDevDataSource() {
 		JndiDataSourceLookup dataSource = null;
 		try {
 			JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
@@ -76,6 +112,7 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 	public void run(ApplicationArguments applicationArguments) {
 		logger.warn("Application started with Active Profile is : {} and Date : {} and ", activeProfile, new Date());
 		try {
+			setTimeZone();
 			if ("prod".equals(activeProfile))
 				emailServiceImpl.sendSimpleMessage("paramanagowda.patil@gmail.com", "Test Mdog App Mail",
 						"Test Mdog App Mail");
@@ -86,6 +123,19 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 		}
 	}
 
+	private void setTimeZone() {
+		Calendar calendar = Calendar.getInstance();
+		logger.info("Default time zone : {} , Calendare time zone :  {} , and date and time : {}",
+				TimeZone.getDefault(), calendar.getTimeZone(), calendar.getTime());
+		logger.info("Current time : {}", new Date());
+		if (!"Asia/Calcutta".equals(TimeZone.getDefault().getID())) {
+			TimeZone.setDefault(TimeZone.getTimeZone("Asia/Calcutta"));
+
+			logger.info("Default time zone : {} , Calendare time zone :  {} , and date and time : {}",
+					TimeZone.getDefault(), calendar.getTimeZone(), calendar.getTime());
+			logger.info("Updated time : {}", new Date());
+		}
+	}
 	/*
 	 * @Bean public JavaMailSender getJavaMailSender() { JavaMailSenderImpl
 	 * mailSender = new JavaMailSenderImpl(); mailSender.setHost("smtp.gmail.com");
