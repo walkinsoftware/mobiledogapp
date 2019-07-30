@@ -34,13 +34,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class Swagger2Config {
 
 	@Bean
-	public Docket api() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ws.spring.rest.controller"))
-				.paths(PathSelectors.regex("/.*")).build().apiInfo(apiEndPointsInfo());
-	}
-
-	@Bean
 	public Docket eDesignApi() {
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiEndPointsInfo()).enable(Boolean.TRUE).select()
 				.apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build().pathMapping("/")

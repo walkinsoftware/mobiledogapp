@@ -34,8 +34,10 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	Boolean isBarCodeExist(String barcode);
 
 	@Query("SELECT u FROM UserDetails u WHERE u.isActive = 0")
-	List<UserDetails> queryInactiveUsers();
+	List<UserDetails> queryRegisteredUsers();
 
+	long countByIsActive(int isActive);
+	
 	@Modifying(clearAutomatically = true)
 	@Transactional
 	@Query("UPDATE UserDetails u set u.approveStatus = :approveStatus, u.isActive = :isActive, u.reason = :reason where u.id in :userIds")

@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Mobile Dog App</title>
+<title>Mobile Dog App2</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 	crossorigin="anonymous">
-  </script>
+	
+</script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -210,23 +212,22 @@ to {
 
 	<header class="sticky" id="header"> <section class="container">
 	<section class="row" id="logo_menu"> <section
-		class="col-xs-8">
-	<a class="logo" href="">Mobile Dog</a></section> <section class="col-xs-4">
-	<a id="menu-toggle" href="#" class="toggle wow rotateIn"
-		data-wow-delay="1s"><i class="ion-navicon"></i></a></section> </section> </section> </header>
+		class="col-xs-8"> <a class="logo" href="">Mobile Dog</a></section> <section
+		class="col-xs-4"> <a id="menu-toggle" href="#"
+		class="toggle wow rotateIn" data-wow-delay="1s"><i
+		class="ion-navicon"></i></a></section> </section> </section> </header>
 
 	<!-- ****************************** Banner ************************** -->
 
 
-	<section id="banner"> <section class="container">
-	<a class="slidedown wow animated zoomIn" data-wow-delay="2s"
+	<section id="banner"> <section class="container"> <a
+		class="slidedown wow animated zoomIn" data-wow-delay="2s"
 		href="#features"><i class="ion-ios-download-outline"></i></a> <section
 		class="row">
 	<div class="col-md-6">
 		<div class="headings">
-			<h3 class="wow animated fadeInDown" style="font-family: san-sarif;">
-				We Are Available On PLAY STORE<br> comming soon APPLE STORE
-			</h3>
+			<h3 class="wow animated fadeInDown" style="font-family: san-sarif;">Welcome
+				to MobileDog</h3>
 			<p class="wow animated fadeInLeft" style="font-family: monospace;">This
 				is the security and anti caring app provideing many more features
 				and safety for mobile as well</p>
@@ -249,13 +250,22 @@ to {
 			</div>
 		</div>
 	</div>
-	<div class="col-md-6 hidden-xs hidden-sm">
-		<div class="hand-container">
-			<!--<img class="iphone-hand img_res wow animated bounceInUp" data-wow-duration="1.2s" src="mobdog.png"></img>-->
-			<div class="clearfix"></div>
+	<div class="col-md-4">
+		<div class="headings">
+			<h3 style="color: darkcyan; font-family: monospace;">Login here</h3>
+
 		</div>
 	</div>
+	</div>
 	</section> </section> </section>
+
+	<form action="userLogin" method="get">
+		<input type="text" class="form-control" id="username" name="username">
+		<input type="password" class="form-control" id="pwd" name="pwd"> <input
+			class="form-check-input" type="checkbox"> Remember me
+
+		<button type="submit" class="btn btn-warning" style="width: 30%;">Submit</button>
+	</form>
 
 	<!-- ****************************** Features Section ************************** -->
 
@@ -273,50 +283,83 @@ to {
 		<div class="feature-box wow animated flipInX" data-wow-delay="0.3s">
 			<i class="ion-ios-settings" style="color: #9b59b6;"></i>
 			<h2>SIM REMOVEL</h2>
-			<p>If Sim reoved Automatically send location and photo captured
-				to Admin</p>
+			<p>After SIM removal or SIM insertion, MobileDog App will capture
+				photo automatically with Location which send to www.mobiledog.in ,
+				registered user can login into www.mobiledog.in for checking
+				captured photo & location.</p>
 		</div>
 	</div>
 	<div class="col-sm-6 col-md-4">
 		<div class="feature-box wow animated flipInX" data-wow-delay="0.3s">
-			<i class="ion-ios-locked-outline" style="color: #d35400;"></i>
+			<i class="ion-ios-browsers-outline" style="color: #c0392b;"></i>
 			<h2>EMERGENCY CALLING</h2>
-			<p>4 times power button pressed means send the location and call
-				to the admin and call has to go the admin or registred user mobile</p>
+			<p>After pressing Power Button/Volume Down Button/Dashboard
+				Emergency Button, MobileDog App will send SMS and make Phone Call
+				automatically to alternative registered number (Care Taker) with
+				user credentials for login into www.mobiledog.in and also send
+				location to www.mobiledog.in, Care Taker can track the location of
+				emergency person.</p>
 		</div>
 	</div>
 	<div class="col-sm-6 col-md-4">
 		<div class="feature-box wow animated flipInX" data-wow-delay="0.3s">
 			<i class="ion-nuclear" style="color: #00ceb8;"></i>
-			<h2>SUPERCLEAN/DEEPCLEAN</h2>
-			<p>Cleans junk files and cache improve the perfomanse</p>
+			<h2>GPS Tracking</h2>
+			<p>Registered user can track his/her mobile location through
+				www.mobiledog.in.</p>
+		</div>
+	</div>
+	</section> <section class="row">
+	<div class="col-sm-6 col-md-4">
+		<div class="feature-box wow animated flipInX" data-wow-delay="0.6s">
+			<i class="ion-ios-locked-outline" style="color: #d35400;"></i>
+			<h2>Phone Protection</h2>
+			<p>After SIM removal, MobileDog App will lock the mobile
+				automatically.</p>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-4">
+		<div class="feature-box wow animated flipInX" data-wow-delay="0.6s">
+			<i class="ion-ios-loop" style="color: #27ae60;"></i>
+			<h2>Phone Theft Notification</h2>
+			<p>After SIM removal, MobileDog App will show the notification
+				(Phone is being tracked, Kindly handover the phone to
+				+91**********).</p>
+		</div>
+	</div>
+	<div class="col-sm-6 col-md-4">
+		<div class="feature-box wow animated flipInX" data-wow-delay="0.6s">
+			<i class="ion-ios-glasses" style="color: #2c3e50;"></i>
+			<h2>Super Cleaning</h2>
+			<p>MobileDog App will clean junk files.</p>
 		</div>
 	</div>
 	</section> <section class="row">
 	<div class="col-sm-6 col-md-4">
 		<div class="feature-box wow animated flipInX" data-wow-delay="0.6s">
 			<i class="ion-ios-browsers-outline" style="color: #c0392b;"></i>
-			<h2>LISTING APPS</h2>
-			<p>Listing App will be like showing appa which are hidden</p>
+			<h2>App Lock</h2>
+			<p>MobileDog App is protected by password (MPIN).</p>
 		</div>
 	</div>
 	<div class="col-sm-6 col-md-4">
 		<div class="feature-box wow animated flipInX" data-wow-delay="0.6s">
 			<i class="ion-ios-loop" style="color: #27ae60;"></i>
-			<h2>GPS TRACKING</h2>
-			<p>GPS Tracking will track the device and send the location
-				details in every 5 min</p>
+			<h2>Hidden App Scan</h2>
+			<p>MobileDog App will display all installed App’s in mobile. It
+				will help you to find the installed hidden App’s on your mobile.</p>
 		</div>
 	</div>
 	<div class="col-sm-6 col-md-4">
 		<div class="feature-box wow animated flipInX" data-wow-delay="0.6s">
 			<i class="ion-ios-glasses" style="color: #2c3e50;"></i>
-			<h2>Customize</h2>
-			<p>Lorem Ipsum is simply dummy text of the printing and
-				typesetting industry. Lorem Ipsum has been the industry's standard.</p>
+			<h2>Setting</h2>
+			<p>User can enable or disable Location Tracking, Emergency & MPIN
+				options.</p>
 		</div>
 	</div>
 	</section>
+
 	<div class="clearfix"></div>
 	</section> </section>
 
@@ -525,52 +568,21 @@ to {
 
 	<!-- ****************************** Subscribe Section ************************** -->
 
+
 	</section>
 
-	<!----------------------------Video Gallery Start----------------------->
-	<div id="id01" class="modal">
-		<table align="center">
-			<tr>
-				<td style="font-style: italic; color: red;">${errorMessage}</td>
-			</tr>
-		</table>
-		<form class="modal-content animate" action="userLogin" method="post">
-			<div class="imgcontainer">
-				<span onclick="document.getElementById('id01').style.display='none'"
-					class="close" title="Close Modal">&times;</span>
-			</div>
-
-			<div class="container">
-				<label for="uname"><b>Username</b></label> <input type="text"
-					placeholder="Enter Username" name="uname" required> <label
-					for="psw"><b>Password</b></label> <input type="password"
-					placeholder="Enter Password" name="psw" required>
-
-				<button type="submit">Login</button>
-				<label> <input type="checkbox" checked="checked"
-					name="remember"> Remember me
-				</label>
-			</div>
-
-			<div class="container" style="background-color: #f1f1f1">
-				<button type="button"
-					onclick="document.getElementById('id01').style.display='none'"
-					class="cancelbtn">Cancel</button>
-			</div>
-		</form>
-	</div>
 
 	<script>
-// Get the modal
-var modal = document.getElementById('id01');
+		// Get the modal
+		var modal = document.getElementById('id01');
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-</script>
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	</script>
 
 
 	<!-- End of body section HTML codes -->
@@ -672,19 +684,19 @@ window.onclick = function(event) {
 	<script src="assets/js/owl.carousel.js"></script>
 	<script src="assets/js/script.js"></script>
 	<script>
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover();
-});
-</script>
+		$(document).ready(function() {
+			$('[data-toggle="popover"]').popover();
+		});
+	</script>
 
 	<script>
-$(document).ready(function(){
-  $(".ion-navicon").click(function(){
-    $("sidebar-wrapper").fadeOut(1000);
-  });
-  
-});
-</script>
+		$(document).ready(function() {
+			$(".ion-navicon").click(function() {
+				$("sidebar-wrapper").fadeOut(1000);
+			});
+
+		});
+	</script>
 
 </body>
 </html>

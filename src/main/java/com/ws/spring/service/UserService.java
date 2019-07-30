@@ -2,8 +2,10 @@ package com.ws.spring.service;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -257,12 +259,23 @@ public class UserService implements Constants {
 		return userRepository.findAll();
 	}
 
-	public List<UserDetails> queryUserListByInsertedDate(Date fromDate, Date toDate) {
+	public List<UserDetails> queryUserListByInsertedDate(String status, Date fromDate, Date toDate) {
+		
 		return userRepository.queryUserListByInsertedDate(fromDate, toDate);
 	}
 
-	public List<UserDetails> queryInactiveUsers() {
-		return userRepository.queryInactiveUsers();
+	public List<UserDetails> queryRegisteredUsers() {
+		return userRepository.queryRegisteredUsers();
+	}
+
+	public Map<String, Long> getAdminDashboardDetails() {
+		Map<String, Long> userCounts = new HashMap<>();
+		userCounts.put("totalUsers", userRepository.count());
+		userCounts.put("totalRegisteredUsers", userRepository.countByIsActive(Constants.REGISTERED));
+		userCounts.put("totalActiveUsers", userRepository.countByIsActive(Constants.ACTIVE));
+		userCounts.put("totalRejectedUsers", userRepository.countByIsActive(Constants.REJECTED));
+		userCounts.put("totalBlockedUsers", userRepository.countByIsActive(Constants.BLOCKED));
+		return userCounts;
 	}
 
 	public void userActivationProcess(UserActivationProcessDto activationProcessDto) {

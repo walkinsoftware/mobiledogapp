@@ -85,7 +85,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -152,10 +151,14 @@
 		</dependency>
 
 		<!-- JSTL tag lib -->
+		<!-- <dependency> <groupId>javax.servlet.jsp.jstl</groupId> <artifactId>javax.servlet.jsp.jstl-api</artifactId> 
+			<version>1.2.1</version> </dependency> -->
+
 		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
-			<version>1.2.1</version>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -226,9 +229,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
+				<!-- <configuration> <skipTests>true</skipTests> </configuration> -->
 			</plugin>
 		</plugins>
 	</build>

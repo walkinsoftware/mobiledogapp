@@ -271,7 +271,7 @@ public class HomeRestController {
 	public List<UserDetails> queryInactiveUsers() {
 		logger.debug("queryInactiveUsers ");
 		try {
-			return userService.queryInactiveUsers();
+			return userService.queryRegisteredUsers();
 		} catch (Exception ex) {
 			throw new ResponseStatusException(HttpStatus.UNAVAILABLE_FOR_LEGAL_REASONS, "Exception Occured", ex);
 		}
