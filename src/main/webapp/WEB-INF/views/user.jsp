@@ -132,9 +132,9 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <a href="User.jsp">
+                        <a href="Report.jsp">
                             <i class="material-icons"></i>
-                            <span>User DashBoard</span>
+                            <span>Home</span>
                         </a>
                     </li>
                     
@@ -198,7 +198,8 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>LONG & LATT</th>
+                                            <th>LONGITUDE</th>
+                                            <th>LATTITUDE</th>
                                             <th>DATE&TIME</th>
                                              <th>Action</th>
                                             
@@ -207,9 +208,10 @@
                                     
                                         <tr>
                                             <td>001</td>
-                                            <td><input type="text" id="latlang" value="77.55,12.98"></td>
-                                             <td>Sat Jul 13 2019 19:02:05 </td>
-                                              <td><a  class="btn btn-success btn-rounded id="submit" style="margin:2px;">View Map</a></td>
+                                            <td>77.5540185</td>
+                                            <td>12.9847091</td>
+                                            <td>Sat Jul 13 2019 19:02:05 </td>
+                                              <td><a href="loginuser?id" class="btn btn-success btn-rounded" style="margin:2px;">View Map</a></td>
                                                 
      
      </tr>
@@ -230,49 +232,7 @@
                     <div class="card">
                         
                                              <h3 style="font-family:Times New Roman; color:	darkcyan;text-align: center;">Map View</h3>
-       
-    <div id="map"></div>
-    <script>
-      function initMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 8,
-          center: {lat: 40.731, lng: -73.997}
-        });
-        var geocoder = new google.maps.Geocoder;
-        var infowindow = new google.maps.InfoWindow;
-
-        document.getElementById('submit').addEventListener('click', function() {
-          geocodeLatLng(geocoder, map, infowindow);
-        });
-      }
-
-      function geocodeLatLng(geocoder, map, infowindow) {
-        var input = document.getElementById('latlng').value;
-        var latlngStr = input.split(',', 2);
-        var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
-        geocoder.geocode({'location': latlng}, function(results, status) {
-          if (status === 'OK') {
-            if (results[0]) {
-              map.setZoom(11);
-              var marker = new google.maps.Marker({
-                position: latlng,
-                map: map
-              });
-              infowindow.setContent(results[0].formatted_address);
-              infowindow.open(map, marker);
-            } else {
-              window.alert('No results found');
-            }
-          } else {
-            window.alert('Geocoder failed due to: ' + status);
-          }
-        });
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCv3phscUI4IHcPXZ8XaOvOXgsDjL89Gvs
-&callback=initMap">
-    </script>
+                                             
                     </div>
                 </div>
             </div>

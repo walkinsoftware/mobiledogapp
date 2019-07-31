@@ -49,4 +49,5 @@ public interface Constants {
 	String LOGIN_BY_OTP = "LOGIN_BY_OTP";
 
 	String LOGIN_BY_PASSWORD = "LOGIN_BY_PASSWORD";
+	
 }

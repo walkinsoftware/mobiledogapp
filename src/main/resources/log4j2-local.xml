@@ -6,13 +6,12 @@
     </Properties>
 
     <Appenders>
-        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true" ignoreExceptions="false">
             <PatternLayout
-                    pattern="%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx"/>
-            <!-- <PatternLayout pattern="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green, DEBUG=green bold, TRACE=blue} %style{${sys:PID}}{magenta} [%15.15t] %style{%-40.40C{1.}}{cyan} :%L --> %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/> -->
+                    pattern="%clr{%d{HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{--}{faint} %clr{%-40.40c{1.} :%3L }{cyan} %clr{:}{faint} %m%n%xwEx"/>
         </Console>
-        <RollingFile name="htmlLogger" fileName="${catalina.base}/logs/mdog-app-info.html"
-                     filePattern="${catalina.base}/logs/mdog-app-info-%d{yyyy-MM-dd}-%i.html">
+        <RollingFile name="htmlLogger" fileName="../logs/mdog-app-info.html"
+                     filePattern="../logs/mdog-app-info-%d{yyyy-MM-dd}-%i.html">
             <HTMLLayout charset="UTF-8" title="MobileDog Info Logs" locationInfo="true" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
@@ -21,8 +20,8 @@
         </RollingFile>
 
         <!-- Rolling File Appender -->
-        <RollingFile name="FileAppender" fileName="${catalina.base}/logs/mdog-app.log"
-                     filePattern="${catalina.base}/logs/mdog-app-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="FileAppender" fileName="../logs/mdog-app.log"
+                     filePattern="../logs/mdog-app-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
                 <Pattern>${LOG_PATTERN}</Pattern>
             </PatternLayout>
@@ -33,8 +32,8 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
         
-        <RollingFile name="SpringLogAppender" fileName="${catalina.base}/logs/spring-mdog-app.log"
-            filePattern="${catalina.base}/logs/spring-mdog-app-%d{yyyy-MM-dd}-%i.log" >
+        <RollingFile name="SpringLogAppender" fileName="../logs/spring-mdog-app.log"
+            filePattern="../logs/spring-mdog-app-%d{yyyy-MM-dd}-%i.log" >
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <SizeBasedTriggeringPolicy size="10MB" />

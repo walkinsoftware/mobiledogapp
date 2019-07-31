@@ -62,18 +62,21 @@
             <i class="material-icons">close</i>
         </div>
     </div>
+
+    ${adminDashboardDetails}
+
+    ${adminDashboardDetails.totalUsers}
+      ${adminDashboardDetails.totalRejectedUsers}
+${adminDashboardDetails.totalActiveUsers}
+${adminDashboardDetails.totalRegisteredUsers}
+
+</br>
+${registeredUserList}
+
     <!-- #END# Search Bar -->
     <!-- Top Bar -->
     <nav class="navbar">
         <div class="container-fluid">
-        
-        loginUser : ${loginUser}
-        username : ${loginUser.username }
-        mobile number : ${loginUser.mobileNumber }
-        role : ${loginUser.roleId }
-        registeredUserList : ${registeredUserList}
-        adminDashboardDetails : ${adminDashboardDetails}
-        
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
                 <a href="javascript:void(0);" class="bars"></a>
@@ -308,9 +311,9 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li class="active">
-                        <a href="Admin.jsp">
+                        <a href="index.html">
                             <i class="material-icons">home</i>
-                            <span>DashBoard</span>
+                            <span>Home</span>
                         </a>
                     </li>
                                         <!--<li>
@@ -436,31 +439,31 @@
                             </li>
                         </ul>
                     </li>
-                    
+
                     </li> -->
                     <!--
 					FORMS START
 					-->
-					
+
 					<li>
                         <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">view_list</i>
                             <span>Reports</span>
                         </a>
                         <ul class="ml-menu">
-                           
+
                             <li>
                                 <a href="Report.jsp">User Records</a>
                             </li>
                             <li>
                                 <a href="userReport.jsp">User Registration</a>
                             </li>
-                           
+
                         </ul>
                     </li>
                     <!--  Medias-->
                     <!-- Example pages-->
-					
+
             </div>
             <!-- #Menu -->
             <!-- Footer -->
@@ -491,7 +494,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-pink hover-expand-effect">
                         <div class="icon">
-                            
+
                         </div>
                         <div class="content">
                             <div class="text">NEW TASKS</div>
@@ -573,7 +576,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 			{ y: 20, name: "Approval Waiting" },
 			{ y: 5, name: "Rejected" },
 			{ y: 3, name: "total Count" },
-			
+
 		]
 	}]
 });
@@ -601,7 +604,7 @@ function explodePie (e) {
                 </div>
                 <!-- #END# Task Info -->
                 <!-- Browser Usage -->
-                
+
                 <!-- #END# Browser Usage -->
             </div>
         </div>

@@ -259,9 +259,16 @@ public class UserService implements Constants {
 		return userRepository.findAll();
 	}
 
-	public List<UserDetails> queryUserListByInsertedDate(String status, Date fromDate, Date toDate) {
-		
-		return userRepository.queryUserListByInsertedDate(fromDate, toDate);
+	public List<UserDetails> queryUsersListByDates(String status, Date fromDate, Date toDate) {
+		if (!StringUtil.checkNullOrEmpty(status) && null != fromDate & null != toDate) {
+			return userRepository.queryUserListByIsActiveAndInsertedDate(getUserStatusFromStrtoInt(status), fromDate,
+					toDate);
+		} else if (!StringUtil.checkNullOrEmpty(status)) {
+			return userRepository.queryUserListByIsActive(getUserStatusFromStrtoInt(status));
+		} else if (null != fromDate & null != toDate) {
+			return userRepository.queryUserListByInsertedDate(fromDate, toDate);
+		}
+		return null;
 	}
 
 	public List<UserDetails> queryRegisteredUsers() {
@@ -307,4 +314,21 @@ public class UserService implements Constants {
 			appSmsSender.sendEmergencyNotificationSms(userDetails);
 		}
 	}
+
+	private int getUserStatusFromStrtoInt(String status) {
+		if (String.valueOf(Constants.REGISTERED).equals(status)) {
+			return Constants.REGISTERED;
+		}
+		if (String.valueOf(Constants.ACTIVE).equals(status)) {
+			return Constants.ACTIVE;
+		}
+		if (String.valueOf(Constants.REJECTED).equals(status)) {
+			return Constants.REJECTED;
+		}
+		if (String.valueOf(Constants.BLOCKED).equals(status)) {
+			return Constants.BLOCKED;
+		}
+		return 0;
+	}
+
 }

@@ -41,9 +41,10 @@ public class LoginController {
 	 * logger.info("Loading the index page"); return "index"; }
 	 */
 
-	@RequestMapping(value = "/userLogin", method = RequestMethod.GET)
+	@RequestMapping(value = "/userLogin", method = RequestMethod.POST)
 	public String userLogin(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("username") String username, @RequestParam("pwd") String password, ModelMap modelMap) {
+			@RequestParam("uname") String username, @RequestParam("pwd") String password, ModelMap modelMap) {
+		logger.info("userLogin action");
 		try {
 			UserDto userDto = new UserDto();
 			userDto.setUsername(username);
@@ -56,7 +57,7 @@ public class LoginController {
 						|| Constants.ROLE_ID_ADMIN == userDetails.getRole().getId()) {
 					modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
 					modelMap.addAttribute("adminDashboardDetails", userService.getAdminDashboardDetails());
-					return "admin";
+					return "Admin";
 				}
 				if (Constants.ROLE_ID_SUPER_USER == userDetails.getRole().getId()
 						|| Constants.ROLE_ID_GENERAL_USER == userDetails.getRole().getId()) {
@@ -76,22 +77,34 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "registeredUserList", method = RequestMethod.GET)
-	public ModelMap registeredUserList(ModelMap modelMap) {
+	public String registeredUserList(ModelMap modelMap) {
+		logger.info("registeredUserList action");
 		modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
-		return modelMap;
+		return "userRegistration";
 	}
 
 	// Need to verify the query result based on name and mobile number
-	@RequestMapping(value = "/queryUserDetail", method = RequestMethod.GET)
+	// User Records
+	@RequestMapping(value = "/queryUserDetailsListByName", method = RequestMethod.GET)
 	public String queryUserDetailsList(@RequestParam String userName, @RequestParam String mobileNumber,
 			ModelMap modelMap) {
+		logger.info("queryUserDetailsListByName action");
 		if (!(StringUtil.checkNullOrEmpty(userName) || StringUtil.checkNullOrEmpty(mobileNumber))) {
 			modelMap.addAttribute("userDetailsList",
 					userService.queryUserDetailsByUserNameOrMobile(userName, mobileNumber));
 		} else {
 			modelMap.addAttribute("userDetailsList", userService.queryAllUserList());
 		}
-		return "admin";
+		return "userReport";
+	}
+
+	// Need to verify the query result
+	@RequestMapping(value = "/queryUsersListByDates", method = RequestMethod.POST)
+	public String queryUsersList(@RequestParam("status") String status, @RequestParam("fromDate") Date fromDate,
+			@RequestParam("toDate") Date toDate, ModelMap modelMap) {
+		logger.info("queryUsersListByDates action");
+		modelMap.addAttribute("userDetailsList", userService.queryUsersListByDates(status, fromDate, toDate));
+		return "userReport";
 	}
 
 	/**
@@ -105,6 +118,7 @@ public class LoginController {
 	@RequestMapping(value = "/userActivationProcess", method = RequestMethod.POST)
 	public String approveUser(@RequestParam("ids") Long[] userIds, @RequestParam("operationType") String operationType,
 			@RequestParam("reason") String reason, ModelMap modelMap) {
+		logger.info("userActivationProcess action");
 		UserActivationProcessDto activationProcessDto = new UserActivationProcessDto(userIds, operationType, reason);
 		try {
 			userService.userActivationProcess(activationProcessDto);
@@ -114,15 +128,7 @@ public class LoginController {
 					userIds, operationType, reason, e.getMessage());
 			modelMap.addAttribute("errmsg", operationType + "is failled");
 		}
-		return "admin";
-	}
-
-	// Need to verify the query result
-	@RequestMapping(value = "/queryUsersList", method = RequestMethod.POST)
-	public String queryUsersList(@RequestParam("status") String status, @RequestParam("fromDate") Date fromDate,
-			@RequestParam("toDate") Date toDate, ModelMap modelMap) {
-		modelMap.addAttribute("userDetailsList", userService.queryUserListByInsertedDate(status, fromDate, toDate));
-		return "admin";
+		return "Admin";
 	}
 
 	/**
@@ -134,6 +140,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "/queryUsersTrackingDetails", method = RequestMethod.POST)
 	public ModelMap queryUsersTrackingDetails(@RequestParam("mobileNumber") String mobileNumber, ModelMap modelMap) {
+		logger.info("queryUsersTrackingDetails action");
 		modelMap.addAttribute("usersTrackingDetails", gpsTrackingService.queryUserGpsTrackingDetails(mobileNumber));
 		return modelMap;
 	}

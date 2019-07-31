@@ -6,7 +6,23 @@
 <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>Admin DashBoard</title>
-    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  </script>
+  
+  <!-- Date picker -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/css/jquery.datepick.css"> 
+<script type="text/javascript" src="assets/js/jquery.plugin.js"></script> 
+<script type="text/javascript" src="assets/js/jquery.datepick.js"></script>
+
+  <!-- date picker Ends -->
     <!-- Calender Start -->
     <link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link href="assets/css/semantic.min.css" rel="stylesheet" type="text/css" />
@@ -37,6 +53,7 @@
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="Admin/css/themes/all-themes.css" rel="stylesheet" />
+</head>
 </head>
 <body class="theme-red">
     <!-- Page Loader -->
@@ -307,7 +324,7 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <a href="index.jsp">
+                        <a href="Report.jsp">
                             <i class="material-icons"></i>
                             <span>Home</span>
                         </a>
@@ -321,8 +338,11 @@
                         </a>
                         <ul class="ml-menu">
                             
-                            <li class="active">
-                                <a href="Admin.jsp">Back</a>
+                            <li class="">
+                                <a href="">Emergency</a>
+                            </li>
+                            <li class="">
+                                <a href="user.jsp">Logout</a>
                             </li>
                             
                         </ul>
@@ -347,131 +367,47 @@
 
     <section class="content">
         <div class="container-fluid">
+        
             <div class="block-header">
                 <h2>
-                    Mobile Dog user Report
+                  Track Your Location By Longitude and Lattitude
                 </h2>
                             </div>
             <!-- Basic Examples -->
             
-            <!-- #END# Basic Examples -->
-            <!-- Exportable Table -->
-            <div class="row clearfix">
+            
+            
+            
+             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
-                        <div class="header">
-                            <h2>
-                                                         
-                            </h2>
-                            <ul class="header-dropdown m-r--5">
-                                <li class="dropdown">
-                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">more_vert</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                        
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                             <h3 style="font-family:Times New Roman;color:	darkcyan;text-align: center;">Track User Details</h3>
+                            
+                                    <table class="table table-bordered table-striped table-hover dataTable js-exportable"><br>
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>NAME</th>
-                                            <th>MOBILE_NO</th>
-                                            <th>BARCODE_NO</th>
-                                            <th>STATUS</th>
-                                           
+                                            <th>LONGITUDE</th>
+                                            <th>LATTITUDE</th>
+                                            <th>DATE&TIME</th>
+                                             <th>Action</th>
+                                            
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>NAME</th>
-                                            <th>MOBILE_NO</th>
-											<th>SECONDARY_NO</th>
-                                            <th>STATUS</th>
-                                           
-                                           
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
+                                    
                                         <tr>
                                             <td>001</td>
-                                            <td>ABC</td>
-                                            <td>8967545678</td>
-                                            <td>6786548764</td>
-                                            <td>ACTIVE</td>
-                                          
-                                        </tr>
-                                        <tr>
-                                            <td>002</td>
-                                            <td>BCD</td>
-                                            <td>734927639</td>
-                                            <td>327437346</td>
-                                            <td>APPROVE-WAITING</td>
-                                         
-										   
-                                        </tr>
-                                        <tr>
-                                            <td>003</td>
-                                            <td>UHN</td>
-                                            <td>4363467346</td>
-                                            <td>32873782378</td>
-                                            <td>REJECTED</td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <td>004</td>
-                                            <td>UKGN</td>
-                                            <td>4573654865</td>
-                                            <td>2285735294</td>
-                                            <td>ACTIVE</td>
-                                        	
-                                        </tr>
-                                        <tr>
-                                            <td>004</td>
-                                            <td>SDF</td>
-                                            <td>582950148</td>
-                                            <td>653729100</td>
-                                            <td>REJECTED</td>
-                                        
-										   
-                                        </tr>
-                                        <tr>
-                                            <td>005</td>
-                                            <td>ILJK</td>
-                                            <td>3947582912</td>
-                                            <td>6025507632</td>
-                                            <td>REJECTED</td>
-                                         
-										   
-                                        </tr>
-                                        <tr>
-                                            <td>006</td>
-                                            <td>MHKG</td>
-                                            <td>5734569348</td>
-                                            <td>5929374859</td>
-                                            <td>ACTIVE</td>
-                                        
-
-
-                                        </tr>
-                                        <tr>
-                                            <td>007</td>
-                                            <td>LKGT</td>
-                                            <td>5619347596</td>
-                                            <td>9573847890</td>
-                                            <td>REJECTED</td>
-										
-                                            
-                                        </tr>
-                                        
+                                            <td>77.5540185</td>
+                                            <td>12.9847091</td>
+                                            <td>Sat Jul 13 2019 19:02:05 </td>
+                                              <td><a href="loginuser?id" class="btn btn-success btn-rounded" style="margin:2px;">View Map</a></td>
+                                                
+     
+     </tr>
+                               
                                  
                                  
                                     </tbody>
@@ -481,6 +417,17 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        
+                                             <h3 style="font-family:Times New Roman; color:	darkcyan;text-align: center;">Map View</h3>
+                    </div>
+                </div>
+            </div>
+            
+            
             <!-- #END# Exportable Table -->
         </div>
     </section>
@@ -520,5 +467,4 @@
            <script src="assets/js/myjs.js"></script>
    
 </body>
-
 </html>
