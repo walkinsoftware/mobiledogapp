@@ -116,19 +116,20 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "/userActivationProcess", method = RequestMethod.POST)
-	public String approveUser(@RequestParam("ids") Long[] userIds, @RequestParam("operationType") String operationType,
+	public String approveUser(@RequestParam("userIds") Long[] userIds, @RequestParam("operationType") String operationType,
 			@RequestParam("reason") String reason, ModelMap modelMap) {
 		logger.info("userActivationProcess action");
 		UserActivationProcessDto activationProcessDto = new UserActivationProcessDto(userIds, operationType, reason);
 		try {
 			userService.userActivationProcess(activationProcessDto);
-			modelMap.addAttribute("msg", operationType + "is succeffully submited");
+			modelMap.addAttribute("msg", operationType + " activity is succeffully submited");
+			modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
 		} catch (Exception e) {
 			logger.error("Exception occure while user activation process userIds:{}, operationType:{}, reason:{} ",
 					userIds, operationType, reason, e.getMessage());
 			modelMap.addAttribute("errmsg", operationType + "is failled");
 		}
-		return "Admin";
+		return "userRegistration";
 	}
 
 	/**

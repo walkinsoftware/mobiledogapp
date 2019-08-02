@@ -272,7 +272,7 @@ public class UserService implements Constants {
 	}
 
 	public List<UserDetails> queryRegisteredUsers() {
-		return userRepository.queryRegisteredUsers();
+		return userRepository.queryUserListByIsActive(Constants.REGISTERED);
 	}
 
 	public Map<String, Long> getAdminDashboardDetails() {
