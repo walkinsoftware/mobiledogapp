@@ -37,7 +37,7 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 	List<UserDetails> queryRegisteredUsers();
 
 	long countByIsActive(int isActive);
-	
+
 	@Modifying(clearAutomatically = true)
 	@Transactional
 	@Query("UPDATE UserDetails u set u.approveStatus = :approveStatus, u.isActive = :isActive, u.reason = :reason where u.id in :userIds")
@@ -55,10 +55,11 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	@Query("SELECT u FROM UserDetails u WHERE u.insertedDate between :fromDate and :toDate")
 	List<UserDetails> queryUserListByInsertedDate(@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
-	
+
 	@Query("SELECT u FROM UserDetails u WHERE u.isActive = :isActive and u.insertedDate between :fromDate and :toDate")
-	List<UserDetails> queryUserListByIsActiveAndInsertedDate(@Param("isActive") int isActive, @Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
-	
+	List<UserDetails> queryUserListByIsActiveAndInsertedDate(@Param("isActive") int isActive,
+			@Param("fromDate") Date fromDate, @Param("toDate") Date toDate);
+
 	@Query("SELECT u FROM UserDetails u WHERE u.isActive = :isActive")
 	List<UserDetails> queryUserListByIsActive(@Param("isActive") int isActive);
 

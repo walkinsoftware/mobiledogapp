@@ -76,58 +76,6 @@
 	${adminDashboardDetails.totalActiveUsers}
 	${adminDashboardDetails.totalRegisteredUsers}
 
-	</br>
-	<p>${msg}</p>
-	<p>${errmsg}</p>
-
-	<table width="50%">
-		<tr>
-			<th>id</th>
-			<th>fullName</th>
-			<th>userName</th>
-			<th>emailId</th>
-			<th>mobileNumber</th>
-			<th>barcode</th>
-			<th>Action</th>
-
-		</tr>
-		<c:forEach items="${registeredUserList}" var="user"
-			varStatus="tagStatus">
-			<tr>
-				<td>${user.id}</td>
-				<td>${user.fullName}</td>
-				<td>${user.userName}</td>
-				<td>${user.emailId}</td>
-				<td>${user.mobileNumber}</td>
-				<td>${user.barcode}</td>
-				<td>
-					<form
-						action="userActivationProcess?userIds=${user.id}"
-						method="post">
-						<input type="text" name="reason" id="reason" /> 
-						<input type="text" name=operationType id="operationType" /> 
-						<input
-							type="submit" value="Accept" id="operationType1" onclick="submitForm(this)"/>
-						<input
-							type="submit" value="Reject" id="operationType2" onclick="submitForm(this)"/>
-
-					</form>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-
-<script>
-   function submitForm(x){
-      if(x.value=='Accept'){
-         document.getElementById('operationType').value='ACCEPT';
-      }
-      else if(x.value=='Reject'){
-          document.getElementById('operationType').value='REJECT';
-       }
-      document.forms[0].submit();
-   }
-</script>
 	<!-- #END# Search Bar -->
 	<!-- Top Bar -->
 	<nav class="navbar">
@@ -492,7 +440,7 @@
 
 					<li><a href="./registeredUserList">User Registration</a></li>
 					<li><a href="./queryUserDetailsListByName">User Records</a></li>
-					
+
 					<%-- <li><form action="registeredUserList"><input type="submit" value="User Registration"></form></li>
 					<li><form action="queryUserDetailsListByName"><input type="submit" value="User Records"></form></li> --%>
 

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	pageEncoding="ISO-8859-1"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<p>${msg}</p>
+	<p>${msg}</p>
 	<p>${errmsg}</p>
 
 	<table width="50%">
@@ -33,23 +33,20 @@
 				<td>${user.mobileNumber}</td>
 				<td>${user.barcode}</td>
 				<td>
-					<form
-						action="userActivationProcess?userIds=${user.id}"
-						method="post">
-						<input type="text" name="reason" id="reason" /> 
-						<input type="text" name=operationType id="operationType" /> 
-						<input
-							type="submit" value="Accept" id="operationType1" onclick="submitForm(this)"/>
-						<input
-							type="submit" value="Reject" id="operationType2" onclick="submitForm(this)"/>
-
+					<form action="userActivationProcess" method="post">
+						<input id="userIds" name="userIds" type="hidden"
+							value="${user.id}" /> <input id="operationType"
+							name="operationType" type="hidden" /> <input type="text"
+							name="reason" id="reason" /> <input type="submit" value="Accept"
+							id="accept" onclick="submitForm(this)" /> <input type="submit"
+							value="Reject" id="reject" onclick="submitForm(this)" />
 					</form>
 				</td>
 			</tr>
 		</c:forEach>
 	</table>
 
-<script>
+	<script>
    function submitForm(x){
       if(x.value=='Accept'){
          document.getElementById('operationType').value='ACCEPT';
