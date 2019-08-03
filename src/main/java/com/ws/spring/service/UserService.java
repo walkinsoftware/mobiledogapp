@@ -256,7 +256,7 @@ public class UserService implements Constants {
 	}
 
 	public List<UserDetails> queryAllUserList() {
-		return userRepository.findAll();
+		return userRepository.queryAllUserList();
 	}
 
 	public List<UserDetails> queryUsersListByDates(String status, Date fromDate, Date toDate) {

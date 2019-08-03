@@ -44,7 +44,7 @@ public class GlobalPositionController {
 	SimRemovalDetailsService simRemovalDetailsService;
 
 	@Autowired
-	EmeregencyDetailsService emeregencyDetailsDervice;
+	EmeregencyDetailsService emeregencyDetailsService;
 
 	@Autowired
 	GpsTrackingService gpsTrackingService;
@@ -111,7 +111,7 @@ public class GlobalPositionController {
 				logger.error("Exception occured while simremoval, mobileNumber : {}", mobileNumber, e);
 			}
 		}
-		EmeregencyDetails emerenecy = emeregencyDetailsDervice.insert(emeregencyDetails);
+		EmeregencyDetails emerenecy = emeregencyDetailsService.insert(emeregencyDetails);
 		if (null != emerenecy) {
 			// Send SMS to Secondary mobile number
 			return ClientResponseUtil.getSuccessResponse();

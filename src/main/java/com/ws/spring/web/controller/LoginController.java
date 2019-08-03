@@ -1,6 +1,7 @@
 package com.ws.spring.web.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,8 +18,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ws.common.util.Constants;
 import com.ws.common.util.StringUtil;
+import com.ws.spring.dto.SimRemovalDto;
 import com.ws.spring.dto.UserActivationProcessDto;
 import com.ws.spring.dto.UserDto;
+import com.ws.spring.model.EmeregencyDetails;
+import com.ws.spring.model.GpsTrackingDetails;
 import com.ws.spring.model.UserDetails;
 import com.ws.spring.service.GpsTrackingService;
 import com.ws.spring.service.UserService;
@@ -61,7 +65,16 @@ public class LoginController {
 				}
 				if (Constants.ROLE_ID_SUPER_USER == userDetails.getRole().getId()
 						|| Constants.ROLE_ID_GENERAL_USER == userDetails.getRole().getId()) {
-					return "user";
+					List<GpsTrackingDetails> queryUserGpsTrackingDetails = gpsTrackingService.queryUserGpsTrackingDetails(userDetails.getMobileNumber());
+					modelMap.addAttribute("usersTrackingDetails", queryUserGpsTrackingDetails);
+					
+					List<SimRemovalDto> querySimRemovalDtos = gpsTrackingService.querySimRemovalDetails(userDetails.getMobileNumber());
+					modelMap.addAttribute("simRemovalDtos", querySimRemovalDtos);
+					
+					List<EmeregencyDetails> queryEmergencyDetails = gpsTrackingService.queryEmergencyDetails(userDetails.getMobileNumber());
+					modelMap.addAttribute("emergenceDetails", queryEmergencyDetails);
+					
+					return "User";
 				}
 			} else {
 				modelMap.addAttribute("errMsg", "Invalid Credentials, Please try again.");
@@ -86,14 +99,16 @@ public class LoginController {
 	// Need to verify the query result based on name and mobile number
 	// User Records
 	@RequestMapping(value = "/queryUserDetailsListByName", method = RequestMethod.GET)
-	public String queryUserDetailsList(@RequestParam String userName, @RequestParam String mobileNumber,
+	public String queryUserDetailsList(@RequestParam String userName, @RequestParam("mobileNumber") String mobileNumber,
 			ModelMap modelMap) {
 		logger.info("queryUserDetailsListByName action");
 		if (!(StringUtil.checkNullOrEmpty(userName) || StringUtil.checkNullOrEmpty(mobileNumber))) {
+			List<UserDetails> queryUserDetailsByUserNameOrMobile = userService.queryUserDetailsByUserNameOrMobile(userName, mobileNumber);
 			modelMap.addAttribute("userDetailsList",
-					userService.queryUserDetailsByUserNameOrMobile(userName, mobileNumber));
+					queryUserDetailsByUserNameOrMobile);
 		} else {
-			modelMap.addAttribute("userDetailsList", userService.queryAllUserList());
+			List<UserDetails> queryAllUserList = userService.queryAllUserList();
+			modelMap.addAttribute("userDetailsList", queryAllUserList);
 		}
 		return "userReport";
 	}
@@ -139,10 +154,11 @@ public class LoginController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping(value = "/queryUsersTrackingDetails", method = RequestMethod.POST)
+	@RequestMapping(value = "/queryUsersTrackingDetails", method = RequestMethod.GET)
 	public ModelMap queryUsersTrackingDetails(@RequestParam("mobileNumber") String mobileNumber, ModelMap modelMap) {
 		logger.info("queryUsersTrackingDetails action");
-		modelMap.addAttribute("usersTrackingDetails", gpsTrackingService.queryUserGpsTrackingDetails(mobileNumber));
+		List<GpsTrackingDetails> queryUserGpsTrackingDetails = gpsTrackingService.queryUserGpsTrackingDetails(mobileNumber);
+		modelMap.addAttribute("usersTrackingDetails", queryUserGpsTrackingDetails);
 		return modelMap;
 	}
 

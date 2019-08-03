@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ws.spring.model.EmeregencyDetails;
+import com.ws.spring.model.UserDetails;
 import com.ws.spring.repository.EmeregencyDetailsRepository;
+import com.ws.spring.repository.UserRepository;
+import com.ws.spring.sms.service.AppSmsSender;
 
 @Service
 public class EmeregencyDetailsService {
@@ -15,8 +18,17 @@ public class EmeregencyDetailsService {
 	@Autowired
 	EmeregencyDetailsRepository removalDetailsRepository;
 
-	public EmeregencyDetails insert(EmeregencyDetails EmeregencyDetails) {
-		return removalDetailsRepository.save(EmeregencyDetails);
+	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
+	AppSmsSender appSmsSender;
+
+	public EmeregencyDetails insert(EmeregencyDetails emeregencyDetails) {
+		EmeregencyDetails details = removalDetailsRepository.save(emeregencyDetails);
+		UserDetails userDetails = userRepository.findUserDetailsByMobileNumber(emeregencyDetails.getMobileNumber());
+		appSmsSender.sendEmergencyNotificationSms(userDetails);
+		return details;
 	}
 
 	public EmeregencyDetails findById(Long id) {

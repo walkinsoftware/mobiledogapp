@@ -1,6 +1,7 @@
 package com.ws.spring.dto;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,10 @@ public class SimRemovalDto implements Serializable{
 	private String lattitude;
 
 	private MultipartFile image;
+	
+	private String imageStr;
+	
+	private Date insertedDate;
 
 	public Long getId() {
 		return id;
@@ -71,4 +76,21 @@ public class SimRemovalDto implements Serializable{
 		this.image = image;
 	}
 
+	public String getImageStr() {
+		return imageStr;
+	}
+
+	public void setImageStr(String imageStr) {
+		this.imageStr = imageStr;
+	}
+
+	public Date getInsertedDate() {
+		return insertedDate;
+	}
+
+	public void setInsertedDate(Date insertedDate) {
+		this.insertedDate = insertedDate;
+	}
+	
+	
 }

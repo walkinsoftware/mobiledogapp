@@ -439,7 +439,7 @@
 				<ul class="ml-menu">
 
 					<li><a href="./registeredUserList">User Registration</a></li>
-					<li><a href="./queryUserDetailsListByName">User Records</a></li>
+					<li><a href="./queryUserDetailsListByName?userName=&mobileNumber=">User Records</a></li>
 
 					<%-- <li><form action="registeredUserList"><input type="submit" value="User Registration"></form></li>
 					<li><form action="queryUserDetailsListByName"><input type="submit" value="User Records"></form></li> --%>

@@ -62,5 +62,8 @@ public interface UserRepository extends JpaRepository<UserDetails, Long> {
 
 	@Query("SELECT u FROM UserDetails u WHERE u.isActive = :isActive")
 	List<UserDetails> queryUserListByIsActive(@Param("isActive") int isActive);
+	
+	@Query("SELECT u FROM UserDetails u")
+	List<UserDetails> queryAllUserList();
 
 }
