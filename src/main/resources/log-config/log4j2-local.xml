@@ -10,36 +10,26 @@
             <PatternLayout
                     pattern="%clr{%d{HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{--}{faint} %clr{%-40.40c{1.} :%3L }{cyan} %clr{:}{faint} %m%n%xwEx"/>
         </Console>
-        <RollingFile name="htmlLogger" fileName="../logs/mdog-app-info.html"
-                     filePattern="../logs/mdog-app-info-%d{yyyy-MM-dd}-%i.html">
-            <HTMLLayout charset="UTF-8" title="MobileDog Info Logs" locationInfo="true" />
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
-                <SizeBasedTriggeringPolicy size="10 MB" />
-            </Policies>
-        </RollingFile>
-
+        
         <!-- Rolling File Appender -->
-        <RollingFile name="FileAppender" fileName="../logs/mdog-app.log"
-                     filePattern="../logs/mdog-app-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="FileAppender" fileName="D:\WorkSpace\tools\Servers\Tomcat\apache-tomcat-9.0.22\logs\mdog-app.log"
+                     filePattern="D:\WorkSpace\tools\Servers\Tomcat\apache-tomcat-9.0.22\logs\mdog-app-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
                 <Pattern>${LOG_PATTERN}</Pattern>
             </PatternLayout>
             <Policies>
-                <TimeBasedTriggeringPolicy interval="1"/>
+                <TimeBasedTriggeringPolicy interval="7"/>
                 <SizeBasedTriggeringPolicy size="10MB"/>
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
         
-        <RollingFile name="SpringLogAppender" fileName="../logs/spring-mdog-app.log"
-            filePattern="../logs/spring-mdog-app-%d{yyyy-MM-dd}-%i.log" >
+        <RollingFile name="SpringLogAppender" fileName="D:\WorkSpace\tools\Servers\Tomcat\apache-tomcat-9.0.22\logs\spring-mdog-app.log"
+            filePattern="D:\WorkSpace\tools\Servers\Tomcat\apache-tomcat-9.0.22\logs\spring-mdog-app-%d{yyyy-MM-dd}-%i.log" >
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="10MB" />
-            </Policies>
-            <Policies>
     			<TimeBasedTriggeringPolicy interval="7" />
+                <SizeBasedTriggeringPolicy size="10MB" />
 			</Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
@@ -67,7 +57,6 @@
 		</root>
 	
 		<logger  name="com.ws.spring.MdogApplication" level="INFO" additivity="false">
-		    <appenderRef ref="htmlLogger"/>
 			<appenderRef ref="FileAppender"/>
 		</logger>
 		<logger name="org.springframework.web" level="INFO" additivity="false">

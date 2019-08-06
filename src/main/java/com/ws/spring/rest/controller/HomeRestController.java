@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +45,8 @@ public class HomeRestController {
 	@Autowired
 	UserService userService;
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
-
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	
 	@GetMapping("/v1/index")
 	public String index() {
 		logger.info("Loading index page");
@@ -73,7 +73,7 @@ public class HomeRestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ClientResponseBean userRegistration(
 			@ApiParam(value = "UserDetail store in database table", required = true) @Valid @RequestBody UserDetails user) {
-		logger.debug("userRegistration for UserName : {}", user.getUserName());
+		logger.info("userRegistration for UserName : {}", user.getUserName());
 		try {
 			return userService.userRegistration(user);
 
@@ -93,7 +93,7 @@ public class HomeRestController {
 	@GetMapping(value = "/v1/verifyHashCode")
 	public ClientResponseBean verifyHashCode(@RequestParam("userName") String userName,
 			@RequestParam("hashCode") String hashCode) {
-		logger.debug("verifyHashCode for UserName : {}", userName);
+		logger.info("verifyHashCode for UserName : {}", userName);
 		try {
 			// hashCode = StringUtil.decode(hashCode);
 			UserDetails userDetails = userService.verifyHashCode(userName, hashCode);
@@ -115,7 +115,7 @@ public class HomeRestController {
 			if (StringUtil.checkNullOrEmpty(userName)) {
 				userName = userOptBean.getUserName();
 			}
-			logger.debug("generate Otp for userName : {}", userName);
+			logger.info("generate Otp for userName : {}", userName);
 			UserOtpBean userOptBeanReturn = null;
 			if (!StringUtil.checkNullOrEmpty(userOptBean.getActivity())
 					&& Constants.REGISTRATION_STR.equals(userOptBean.getActivity())) {
@@ -136,7 +136,7 @@ public class HomeRestController {
 
 	@GetMapping("/v1/verifyUserOtp")
 	public ClientResponseBean verifyUserOtp(@RequestBody UserDto userDto) {
-		logger.debug("verifyUserOtp Otp for userName : {} and opt : {}", userDto.getUsername(), userDto.getOtp());
+		logger.info("verifyUserOtp Otp for userName : {} and opt : {}", userDto.getUsername(), userDto.getOtp());
 		try {
 			UserOtpBean userOptBean = userService.verifyUserOtp(userDto.getUsername(), userDto.getOtp());
 			if (null != userOptBean) {
@@ -152,7 +152,7 @@ public class HomeRestController {
 	@PostMapping("/v1/setUserMpin")
 	public ClientResponseBean setUserMpin(@RequestBody UserDto userDto) {
 		String username = userDto.getUsername();
-		logger.debug("setUserMpin for user name : {}", username);
+		logger.info("setUserMpin for user name : {}", username);
 		try {
 			userService.setUserMpin(username, userDto.getMpin());
 			return ClientResponseUtil.getSuccessResponse();
@@ -165,7 +165,7 @@ public class HomeRestController {
 	@PostMapping("/v1/forgotPassword")
 	public ResponseEntity<ClientResponseBean> forgotPassword(@RequestBody UserDto userDto) {
 		String username = userDto.getUsername();
-		logger.debug("forgotPassword for username : {}", username);
+		logger.info("forgotPassword for username : {}", username);
 		try {
 			if (userService.forgotPassword(username)) {
 				return new ResponseEntity<>(ClientResponseUtil.sentOptSucces(), HttpStatus.OK);
@@ -181,7 +181,7 @@ public class HomeRestController {
 
 	@PostMapping("/v1/resetPassword")
 	public ClientResponseBean resetPassword(@RequestBody UserDto userDto) {
-		logger.debug("resetPassword for user : {}", userDto.getUsername());
+		logger.info("resetPassword for user : {}", userDto.getUsername());
 		try {
 			if (userService.resetPassword(userDto)) {
 				return ClientResponseUtil.getSuccessResponse();
@@ -195,7 +195,7 @@ public class HomeRestController {
 
 	@PostMapping("/v1/changePassword")
 	public ClientResponseBean changePassword(@RequestBody UserDto userDto) {
-		logger.debug("changePassword for user : {}", userDto.getUsername());
+		logger.info("changePassword for user : {}", userDto.getUsername());
 		try {
 			if (userService.changePassword(userDto)) {
 				return ClientResponseUtil.getSuccessResponse();
@@ -210,7 +210,7 @@ public class HomeRestController {
 	// Login with fingerprint option need to implement
 	@PostMapping("/v1/userLoginByPassword")
 	public ClientResponseBean userLoginByPassword(@RequestBody UserDto userDto) {
-		logger.debug("userLoginByPassword for user : {}", userDto.getUsername());
+		logger.info("userLoginByPassword for user : {}", userDto.getUsername());
 		try {
 			logger.info("User login process : {}", userDto);
 			UserDetails userDetails = userService.userLogin(userDto, Constants.LOGIN_BY_PASSWORD);
@@ -228,7 +228,7 @@ public class HomeRestController {
 
 	@PostMapping("/v1/userLoginByOtp")
 	public ClientResponseBean userLoginByOtp(@RequestBody UserDto userDto) {
-		logger.debug("userLoginByOtp for user : {}", userDto.getUsername());
+		logger.info("userLoginByOtp for user : {}", userDto.getUsername());
 		try {
 			logger.info("User login process : {}", userDto);
 			UserDetails userDetails = userService.userLogin(userDto, Constants.LOGIN_BY_OTP);
@@ -251,7 +251,7 @@ public class HomeRestController {
 			@ApiResponse(code = 1001, message = "User Login Failed."),
 			@ApiResponse(code = 500, message = "Internal Server Error"), })
 	public ClientResponseBean userLoginMpin(@RequestBody UserDto userDto) {
-		logger.debug("userLoginMpin for user : {}", userDto.getUsername());
+		logger.info("userLoginMpin for user : {}", userDto.getUsername());
 		try {
 			logger.info("User MPIN login process : {}", userDto);
 			UserDetails userDetails = userService.userLogin(userDto, Constants.LOGIN_BY_MPIN);
@@ -269,7 +269,7 @@ public class HomeRestController {
 
 	@GetMapping("/v1/queryInactiveUsers")
 	public List<UserDetails> queryInactiveUsers() {
-		logger.debug("queryInactiveUsers ");
+		logger.info("queryInactiveUsers ");
 		try {
 			return userService.queryRegisteredUsers();
 		} catch (Exception ex) {
@@ -282,7 +282,7 @@ public class HomeRestController {
 			@ApiResponse(code = 403, message = "An unexpected error occurred") })
 	@PostMapping("/v1/userActivationProcess")
 	public ClientResponseBean userActivationProcess(@RequestBody UserActivationProcessDto activationProcessDto) {
-		logger.debug("userActivationProcess ");
+		logger.info("userActivationProcess ");
 		try {
 			userService.userActivationProcess(activationProcessDto);
 			return ClientResponseUtil.getSuccessResponse();

@@ -1,7 +1,7 @@
 package com.ws.spring.exception;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,8 +13,8 @@ import com.ws.common.util.ClientResponseUtil;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
-
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
 		logger.error("ResourceNotFoundException occured at {} and error is  {}", request.getContextPath(),

@@ -1,7 +1,7 @@
 package com.ws.spring.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,14 +32,14 @@ public class GpsTrackingDetails implements Serializable {
 	private String lattitude;
 
 	@CreationTimestamp
-	private Date insertedTime;
+	private LocalDate insertedTime;
 
 	public GpsTrackingDetails() {
 		super();
 	}
 
 	public GpsTrackingDetails(Long id, String mobileNumber, String imeiNum, String langitude, String lattitude,
-			Date insertedTime) {
+			LocalDate insertedTime) {
 		super();
 		this.id = id;
 		this.mobileNumber = mobileNumber;
@@ -89,11 +89,11 @@ public class GpsTrackingDetails implements Serializable {
 		this.lattitude = lattitude;
 	}
 
-	public Date getInsertedTime() {
+	public LocalDate getInsertedTime() {
 		return insertedTime;
 	}
 
-	public void setInsertedTime(Date insertedTime) {
+	public void setInsertedTime(LocalDate insertedTime) {
 		this.insertedTime = insertedTime;
 	}
 

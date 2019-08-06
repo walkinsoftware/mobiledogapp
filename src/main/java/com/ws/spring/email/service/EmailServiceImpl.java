@@ -1,7 +1,7 @@
 package com.ws.spring.email.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailServiceImpl {
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
-
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	
 	@Autowired
 	public MailSender emailSender;
 

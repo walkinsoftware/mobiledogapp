@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,10 +35,10 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping(value = "/gpstracking")
-@Api(value = "GPS Management System", description = "Operations pertaining to gps in Global Position System")
+@Api(value = "GPS Management System", tags = "Operations pertaining to gps in Global Position System")
 public class GlobalPositionController {
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Autowired
 	SimRemovalDetailsService simRemovalDetailsService;
@@ -51,22 +51,28 @@ public class GlobalPositionController {
 
 	@PostMapping("/v1/simremoval")
 	public ClientResponseBean simRemoval(@ModelAttribute SimRemovalDto simRemovalDto) {
-		String mobileNumber = simRemovalDto.getMobileNumber();
-		logger.info("simRemoval simRemovalDto details : {}", simRemovalDto);
-		SimRemovalDetails simRemovalDetails = new SimRemovalDetails();
-		BeanUtils.copyProperties(simRemovalDto, simRemovalDetails, "image");
-		MultipartFile image = simRemovalDto.getImage();
-		if (!image.isEmpty()) {
-			try {
-				byte[] bytes = image.getBytes();
-				simRemovalDetails.setImage(new SerialBlob(bytes));
-			} catch (IOException | SQLException e) {
-				logger.error("Exception occured while simremoval, mobileNumber : {}", mobileNumber, e);
+		try {
+			String mobileNumber = simRemovalDto.getMobileNumber();
+			logger.info("simRemoval simRemovalDto details : {}", simRemovalDto);
+			SimRemovalDetails simRemovalDetails = new SimRemovalDetails();
+			BeanUtils.copyProperties(simRemovalDto, simRemovalDetails, "image");
+			MultipartFile image = simRemovalDto.getImage();
+			if (!image.isEmpty()) {
+				try {
+					byte[] bytes = image.getBytes();
+					simRemovalDetails.setImage(new SerialBlob(bytes));
+				} catch (IOException | SQLException e) {
+					logger.error("Exception occured while simremoval, mobileNumber : {}", mobileNumber, e);
+				}
 			}
+			if (null != simRemovalDetailsService.insert(simRemovalDetails))
+				return ClientResponseUtil.getSuccessResponse();
+
+			logger.warn("addimg sim removal data failed");
+			return ClientResponseUtil.getErrorResponse();
+		} catch (Exception ex) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Registration got an Error", ex);
 		}
-		if (null != simRemovalDetailsService.insert(simRemovalDetails))
-			return ClientResponseUtil.getSuccessResponse();
-		return ClientResponseUtil.getErrorResponse();
 	}
 
 	@GetMapping("/v1/querySimRemovalDetails")
@@ -95,27 +101,32 @@ public class GlobalPositionController {
 		}
 	}
 
-	@PostMapping("/v1/emeregency")
-	public ClientResponseBean emeregency(@RequestBody SimRemovalDto simRemovalDto) {
-
-		String mobileNumber = simRemovalDto.getMobileNumber();
-		logger.info("simRemoval simRemovalDto details : {}", simRemovalDto);
-		EmeregencyDetails emeregencyDetails = new EmeregencyDetails();
-		BeanUtils.copyProperties(simRemovalDto, emeregencyDetails, "image");
-		MultipartFile image = simRemovalDto.getImage();
-		if (!image.isEmpty()) {
-			try {
-				byte[] bytes = image.getBytes();
-				emeregencyDetails.setImage(new SerialBlob(bytes));
-			} catch (IOException | SQLException e) {
-				logger.error("Exception occured while simremoval, mobileNumber : {}", mobileNumber, e);
+	@PostMapping("/v1/emergency")
+	public ClientResponseBean emeregency(@ModelAttribute SimRemovalDto simRemovalDto) {
+		try {
+			String mobileNumber = simRemovalDto.getMobileNumber();
+			logger.info("simRemoval simRemovalDto details : {}", simRemovalDto);
+			EmeregencyDetails emeregencyDetails = new EmeregencyDetails();
+			BeanUtils.copyProperties(simRemovalDto, emeregencyDetails, "image");
+			MultipartFile image = simRemovalDto.getImage();
+			if (null != image && !image.isEmpty()) {
+				try {
+					byte[] bytes = image.getBytes();
+					emeregencyDetails.setImage(new SerialBlob(bytes));
+				} catch (IOException | SQLException e) {
+					logger.error("Exception occured while simremoval, mobileNumber : {}", mobileNumber, e);
+				}
 			}
+			EmeregencyDetails emerenecy = emeregencyDetailsService.insert(emeregencyDetails);
+			if (null != emerenecy) {
+				// Send SMS to Secondary mobile number
+				return ClientResponseUtil.getSuccessResponse();
+			}
+			logger.warn("addimg sim removal data failed");
+			return ClientResponseUtil.getErrorResponse();
+		} catch (Exception ex) {
+			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Registration got an Error", ex);
 		}
-		EmeregencyDetails emerenecy = emeregencyDetailsService.insert(emeregencyDetails);
-		if (null != emerenecy) {
-			// Send SMS to Secondary mobile number
-			return ClientResponseUtil.getSuccessResponse();
-		}
-		return ClientResponseUtil.getErrorResponse();
 	}
 }

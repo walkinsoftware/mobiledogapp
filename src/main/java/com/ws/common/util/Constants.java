@@ -5,10 +5,10 @@ public interface Constants {
 	/**
 	 * User Role description
 	 */
-	int ROLE_ID_SUPERADMIN = 1;
-	int ROLE_ID_ADMIN = 2;
-	int ROLE_ID_SUPER_USER = 3;
-	int ROLE_ID_GENERAL_USER = 4;
+	long ROLE_ID_SUPERADMIN = 1;
+	long ROLE_ID_GENERAL_USER = 2;
+	long ROLE_ID_ADMIN = 3;
+	long ROLE_ID_REPORTER = 4;
 
 	/**
 	 * isActive parameter descriptions

@@ -1,7 +1,7 @@
 package com.ws.spring.dto;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +26,7 @@ public class SimRemovalDto implements Serializable{
 	
 	private String imageStr;
 	
-	private Date insertedDate;
+	private LocalDate insertedDate;
 
 	public Long getId() {
 		return id;
@@ -84,11 +84,11 @@ public class SimRemovalDto implements Serializable{
 		this.imageStr = imageStr;
 	}
 
-	public Date getInsertedDate() {
+	public LocalDate getInsertedDate() {
 		return insertedDate;
 	}
 
-	public void setInsertedDate(Date insertedDate) {
+	public void setInsertedDate(LocalDate insertedDate) {
 		this.insertedDate = insertedDate;
 	}
 	

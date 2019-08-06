@@ -3,8 +3,8 @@ package com.ws.spring.sms.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -18,6 +18,8 @@ import com.ws.spring.model.UserDetails;
 @PropertySource("classpath:smsconfig.properties")
 public class AppSmsSender {
 
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+
 	@Autowired
 	private Environment env;
 
@@ -28,9 +30,19 @@ public class AppSmsSender {
 	// "http://smshorizon.co.in/api/sendsms.php?user={{username}}&apikey={{apikey}}&message={{message}}&mobile={{mobile}}&senderid={{senderid}}&type={{type}}";
 	private String smsMainUrl;
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
 
 	public AppSmsSender() {
+
+	}
+
+	private void initilizeSmsUrl() {
+		Map<String, String> mainReplacements = new HashMap<String, String>();
+		mainReplacements.put("username", env.getProperty("mdogapp.sms.username"));
+		mainReplacements.put("apikey", env.getProperty("mdogapp.sms.apikey"));
+		mainReplacements.put("senderid", env.getProperty("mdogapp.sms.senderid"));
+		mainReplacements.put("type", env.getProperty("mdogapp.sms.type"));
+
+		smsMainUrl = StringUtil.messageFormat(env.getProperty("mdogapp.sms.mainUrl"), mainReplacements);
 	}
 
 	public void sendUserRegistrationSms(UserDetails userDetails) {
@@ -39,13 +51,10 @@ public class AppSmsSender {
 	}
 
 	public void sendUserOtp(UserOtpBean userOtpBean) {
-		Map<String, String> mainReplacements = new HashMap<String, String>();
-		mainReplacements.put("username", env.getProperty("mdogapp.sms.username"));
-		mainReplacements.put("apikey", env.getProperty("mdogapp.sms.apikey"));
-		mainReplacements.put("senderid", env.getProperty("mdogapp.sms.senderid"));
-		mainReplacements.put("type", env.getProperty("mdogapp.sms.type"));
 
-		smsMainUrl = StringUtil.messageFormat(env.getProperty("mdogapp.sms.mainUrl"), mainReplacements);
+		if (StringUtil.checkNullOrEmpty(smsMainUrl)) {
+			initilizeSmsUrl();
+		}
 
 		Map<String, String> replacements = new HashMap<String, String>();
 		// replacements.put("user", userOtpBean.getUserName());
@@ -65,6 +74,9 @@ public class AppSmsSender {
 	}
 
 	private String prepareSms(UserDetails userDetails, String msgCode) {
+		if (StringUtil.checkNullOrEmpty(smsMainUrl)) {
+			initilizeSmsUrl();
+		}
 		Map<String, String> replacements = new HashMap<String, String>();
 		replacements.put("fullname", userDetails.getFullName());
 		replacements.put("user", userDetails.getUserName());
@@ -75,11 +87,12 @@ public class AppSmsSender {
 
 		Map<String, String> mainUrlreplacements = new HashMap<String, String>();
 		String messageEncoded = StringUtil.encode(message);
-		logger.info("Message : {} , String util ENcoder {}", message, messageEncoded);
+		logger.info("Message : {} , String util Encoder {}", message, messageEncoded);
 
 		mainUrlreplacements.put("message", messageEncoded);
 		String mobileNumber = userDetails.getMobileNumber();
 		mainUrlreplacements.put("mobile", mobileNumber);
+
 		return StringUtil.messageFormat(smsMainUrl, mainUrlreplacements);
 	}
 

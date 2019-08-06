@@ -69,6 +69,12 @@
 			<version>3.3.6</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -252,14 +258,15 @@
 		<profile>
 			<id>dev</id>
 			<build>
-				<finalName>ROOT</finalName>
+				<finalName>mobiledog</finalName>
 				<directory>deploy-dev</directory>
 				<plugins>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-war-plugin</artifactId>
 						<configuration>
-							<outputDirectory>D:\walkin-software\Server_Data\dev-deploy</outputDirectory>
+							<outputDirectory>D:\WorkSpace\tools\Servers\Tomcat\apache-tomcat-9.0.20\webapps</outputDirectory>
+							<!-- <outputDirectory>D:\walkin-software\Server_Data\dev-deploy</outputDirectory> -->
 						</configuration>
 					</plugin>
 				</plugins>

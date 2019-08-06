@@ -385,7 +385,7 @@
 										<th >Status</th>
 
 									</tr>
-									<c:forEach items="${usersTrackingDetails}" var="user"
+									<c:forEach items="${userDetailsList}" var="user"
 										varStatus="tagStatus">
 										<tr>
 											<td>${user.id}</td>

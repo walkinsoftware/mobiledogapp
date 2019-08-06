@@ -6,15 +6,15 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SendSms {
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
-
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	
 	public void sendSmstoUser(String smsMainUrl, String mobileNumber) {
 		// Prepare Url
 		URLConnection myURLConnection = null;

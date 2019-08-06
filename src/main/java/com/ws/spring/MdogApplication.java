@@ -5,9 +5,13 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -20,11 +24,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 
 import com.ws.spring.email.service.EmailServiceImpl;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author admin
@@ -33,12 +40,17 @@ import com.ws.spring.email.service.EmailServiceImpl;
 @SpringBootApplication
 @Configuration
 @EnableJdbcHttpSession
+@EnableSwagger2
+@Resource(name = "jdbc/walkindbDS", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS")
 public class MdogApplication extends SpringBootServletInitializer implements ApplicationRunner {
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Value("${spring.profiles.active}")
 	private String activeProfile;
+
+	@Value("${spring.datasource.jndi-name}")
+	private String jndiDataSourceName;
 
 	@Autowired
 	EmailServiceImpl emailServiceImpl;
@@ -52,47 +64,11 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 		return new ConcurrentTaskScheduler(); // single threaded by default
 	}
 
-	@Bean
-	@Profile("prod")
-	@Resource(name = "jdbc/walkindbDS", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS")
-	public JndiDataSourceLookup jndDataSource() {
-		JndiDataSourceLookup dataSource = null;
-		try {
-			JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
-			dataSourceLookup.getDataSource("java:comp/env/jdbc/walkindbDS");
-			// JndiTemplate jndi = new JndiTemplate();
-			// dataSource = jndi.lookup("java:comp/env/jdbc/walkindbDS", DataSource.class);
-			logger.info("JDNI Datasource Connection success : jdbc/walkindbDS");
-		} catch (Exception e) {
-			logger.error("NamingException for java:comp/env/jdbc/yourname", e);
-		}
-		return dataSource;
-	}
-
-	@Bean
-	@Profile("stage")
-	@Resource(name = "jdbc/walkindbDS-stage", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS-stage")
-	public JndiDataSourceLookup jndStageDataSource() {
-		JndiDataSourceLookup dataSource = null;
-		try {
-			JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
-			dataSourceLookup.getDataSource("java:comp/env/jdbc/walkindbDS");
-			// JndiTemplate jndi = new JndiTemplate();
-			// dataSource = jndi.lookup("java:comp/env/jdbc/walkindbDS", DataSource.class);
-			logger.info("JDNI Datasource Connection success : jdbc/walkindbDS");
-		} catch (Exception e) {
-			logger.error("NamingException for java:comp/env/jdbc/yourname", e);
-		}
-		return dataSource;
-	}
-
-	@Bean
 	@Profile("dev")
-	@Resource(name = "jdbc/walkindbDS-dev", type = javax.sql.DataSource.class, lookup = "jdbc/walkindbDS-dev")
-	public JndiDataSourceLookup jndDevDataSource() {
-		JndiDataSourceLookup dataSource = null;
+	public JndiDataSourceLookup jndDataSource() {
+		JndiDataSourceLookup dataSourceLookup = null;
 		try {
-			JndiDataSourceLookup dataSourceLookup = new JndiDataSourceLookup();
+			dataSourceLookup = new JndiDataSourceLookup();
 			dataSourceLookup.getDataSource("java:comp/env/jdbc/walkindbDS");
 			// JndiTemplate jndi = new JndiTemplate();
 			// dataSource = jndi.lookup("java:comp/env/jdbc/walkindbDS", DataSource.class);
@@ -100,7 +76,37 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 		} catch (Exception e) {
 			logger.error("NamingException for java:comp/env/jdbc/yourname", e);
 		}
-		return dataSource;
+		return dataSourceLookup;
+	}
+
+	public DataSource jndiDataSource() {
+		JndiObjectFactoryBean bean = new JndiObjectFactoryBean();
+		bean.setJndiName(jndiDataSourceName);
+		bean.setProxyInterface(DataSource.class);
+		bean.setLookupOnStartup(false);
+		try {
+			bean.afterPropertiesSet();
+		} catch (IllegalArgumentException | NamingException e) {
+			logger.error("NamingException for {}", jndiDataSourceName, e);
+		}
+		return (DataSource) bean.getObject();
+
+	}
+
+	/*
+	 * @Profile("dev")
+	 * 
+	 * @Bean(destroyMethod = "")
+	 * 
+	 * @Resource(name = "jdbc/walkindbDS", type = javax.sql.DataSource.class, lookup
+	 * = "jdbc/walkindbDS")
+	 */
+	public DataSource loadJndiDataSource() throws NamingException {
+
+		Context ctx = new InitialContext();
+		Context initCtx = (Context) ctx.lookup("java:/comp/env");
+		DataSource ds = (DataSource) initCtx.lookup("jdbc/walkindbDS");
+		return ds;
 	}
 
 	@Override
@@ -116,7 +122,8 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 			if ("prod".equals(activeProfile))
 				emailServiceImpl.sendSimpleMessage("paramanagowda.patil@gmail.com", "Test Mdog App Mail",
 						"Test Mdog App Mail");
-			logger.info("Email Sent Successfully");
+			logger.debug("Debug log");
+			logger.info("Info Log");
 
 		} catch (Exception e) {
 			logger.error("SendSms got an error : {},", e.getMessage(), e);

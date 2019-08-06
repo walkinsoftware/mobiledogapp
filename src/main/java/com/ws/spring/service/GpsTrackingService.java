@@ -3,9 +3,10 @@ package com.ws.spring.service;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ import com.ws.spring.repository.SimRemovalDetailsRepository;
 
 @Service
 public class GpsTrackingService {
+
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Autowired
 	GpsTrackingRepository gpsTrackingRepository;
@@ -46,22 +49,42 @@ public class GpsTrackingService {
 		for (SimRemovalDetails details : querySimRemovalDetails) {
 			SimRemovalDto simRemovalDto = new SimRemovalDto();
 			BeanUtils.copyProperties(details, simRemovalDto, "image");
-
-			byte[] encodeBase64;
-			try {
-				encodeBase64 = details.getImage().getBinaryStream().readAllBytes();
-				String base64Encoded = new String(BASE64EncoderStream.encode(encodeBase64), "UTF-8");
-				simRemovalDto.setImageStr(base64Encoded);
-			} catch (IOException | SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (null != details.getImage()) {
+				byte[] encodeBase64;
+				try {
+					encodeBase64 = details.getImage().getBinaryStream().readAllBytes();
+					String base64Encoded = new String(BASE64EncoderStream.encode(encodeBase64), "UTF-8");
+					simRemovalDto.setImageStr(base64Encoded);
+				} catch (IOException | SQLException e) {
+					logger.error("Exception occure while user mobileNumber : {} , error : {}", mobileNumber,
+							e.getMessage(), e);
+				}
 			}
 			dtos.add(simRemovalDto);
 		}
 		return dtos;
 	}
 
-	public List<EmeregencyDetails> queryEmergencyDetails(String mobileNumber) {
-		return emeregencyDetailsRepository.queryEmeregencyDetailsByMobileNumber(mobileNumber);
+	public List<SimRemovalDto> queryEmergencyDetails(String mobileNumber) {
+		List<EmeregencyDetails> queryEmergencyDetails = emeregencyDetailsRepository
+				.queryEmeregencyDetailsByMobileNumber(mobileNumber);
+		List<SimRemovalDto> dtos = new ArrayList<SimRemovalDto>();
+		for (EmeregencyDetails details : queryEmergencyDetails) {
+			SimRemovalDto simRemovalDto = new SimRemovalDto();
+			BeanUtils.copyProperties(details, simRemovalDto, "image");
+			if (null != details.getImage()) {
+				byte[] encodeBase64;
+				try {
+					encodeBase64 = details.getImage().getBinaryStream().readAllBytes();
+					String base64Encoded = new String(BASE64EncoderStream.encode(encodeBase64), "UTF-8");
+					simRemovalDto.setImageStr(base64Encoded);
+				} catch (IOException | SQLException e) {
+					logger.error("Exception occure while user mobileNumber : {} , error : {}", mobileNumber,
+							e.getMessage(), e);
+				}
+			}
+			dtos.add(simRemovalDto);
+		}
+		return dtos;
 	}
 }

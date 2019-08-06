@@ -123,6 +123,7 @@ public class UserDetails implements Serializable {
 				+ ", reason=" + reason + ", imeiNum=" + imeiNum + ", gpsTracking=" + gpsTracking + ", emergency="
 				+ emergency + ", insertedDate=" + insertedDate + ", updatedDate=" + updatedDate + "]";
 	}
+	
 
 	public Long getId() {
 		return id;

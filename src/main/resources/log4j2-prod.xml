@@ -57,7 +57,7 @@
          -->
     </Appenders>
 	 <loggers>
-		<root level="WARN" additivity="true">
+		<root level="INFO" additivity="true">
 		    <appenderRef ref="ConsoleAppender"/>
 		</root>
 	

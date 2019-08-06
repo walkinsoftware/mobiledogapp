@@ -17,7 +17,7 @@ public class AESAlgorithm {
 	private static SecretKeySpec keySpec;
 	private static byte[] key;
 	private static String secretKeyValue = "walkinsoft-2020";
-	private static final Logger logger = LoggerFactory.getLogger(AESAlgorithm.class);
+	private  static final Logger logger = LoggerFactory.getLogger(AESAlgorithm.class);
 
 	public static void setKey(String myKey) {
 		MessageDigest messageDigest = null;

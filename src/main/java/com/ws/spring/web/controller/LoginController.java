@@ -6,8 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,7 +21,6 @@ import com.ws.common.util.StringUtil;
 import com.ws.spring.dto.SimRemovalDto;
 import com.ws.spring.dto.UserActivationProcessDto;
 import com.ws.spring.dto.UserDto;
-import com.ws.spring.model.EmeregencyDetails;
 import com.ws.spring.model.GpsTrackingDetails;
 import com.ws.spring.model.UserDetails;
 import com.ws.spring.service.GpsTrackingService;
@@ -32,8 +31,8 @@ import com.ws.spring.web.model.LoginUser;
 @SessionAttributes("loginUser")
 public class LoginController {
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
-
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	
 	@Autowired
 	UserService userService;
 
@@ -48,32 +47,36 @@ public class LoginController {
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST)
 	public String userLogin(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam("uname") String username, @RequestParam("pwd") String password, ModelMap modelMap) {
-		logger.info("userLogin action");
+		logger.info("userLogin action username : {}", username);
 		try {
 			UserDto userDto = new UserDto();
 			userDto.setUsername(username);
 			userDto.setPassword(password);
 			UserDetails userDetails = userService.userLogin(userDto, Constants.LOGIN_BY_PASSWORD);
 			if (null != userDetails) {
+				Long roleId = userDetails.getRole().getId();
+				logger.info("Login Successfull. username : {} and Role Id : {}", username, roleId);
 				modelMap.addAttribute("loginUser", filterUserDetailsFields(userDetails));
 
-				if (Constants.ROLE_ID_SUPERADMIN == userDetails.getRole().getId()
-						|| Constants.ROLE_ID_ADMIN == userDetails.getRole().getId()) {
+				if (Constants.ROLE_ID_SUPERADMIN == roleId || Constants.ROLE_ID_ADMIN == roleId) {
 					modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
 					modelMap.addAttribute("adminDashboardDetails", userService.getAdminDashboardDetails());
 					return "Admin";
 				}
-				if (Constants.ROLE_ID_SUPER_USER == userDetails.getRole().getId()
-						|| Constants.ROLE_ID_GENERAL_USER == userDetails.getRole().getId()) {
-					List<GpsTrackingDetails> queryUserGpsTrackingDetails = gpsTrackingService.queryUserGpsTrackingDetails(userDetails.getMobileNumber());
+				if (Constants.ROLE_ID_GENERAL_USER == roleId || Constants.ROLE_ID_REPORTER == roleId) {
+
+					List<GpsTrackingDetails> queryUserGpsTrackingDetails = gpsTrackingService
+							.queryUserGpsTrackingDetails(userDetails.getMobileNumber());
 					modelMap.addAttribute("usersTrackingDetails", queryUserGpsTrackingDetails);
-					
-					List<SimRemovalDto> querySimRemovalDtos = gpsTrackingService.querySimRemovalDetails(userDetails.getMobileNumber());
+
+					List<SimRemovalDto> querySimRemovalDtos = gpsTrackingService
+							.querySimRemovalDetails(userDetails.getMobileNumber());
 					modelMap.addAttribute("simRemovalDtos", querySimRemovalDtos);
-					
-					List<EmeregencyDetails> queryEmergencyDetails = gpsTrackingService.queryEmergencyDetails(userDetails.getMobileNumber());
+
+					List<SimRemovalDto> queryEmergencyDetails = gpsTrackingService
+							.queryEmergencyDetails(userDetails.getMobileNumber());
 					modelMap.addAttribute("emergenceDetails", queryEmergencyDetails);
-					
+
 					return "User";
 				}
 			} else {
@@ -83,7 +86,7 @@ public class LoginController {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception occure while user loginusername : {} , error : {}", username, e.getMessage(), e);
 		}
 
 		return "index";
@@ -91,7 +94,7 @@ public class LoginController {
 
 	@RequestMapping(value = "registeredUserList", method = RequestMethod.GET)
 	public String registeredUserList(ModelMap modelMap) {
-		logger.info("registeredUserList action");
+		logger.info("registeredUserList action userName : {}", modelMap);
 		modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
 		return "userRegistration";
 	}
@@ -103,9 +106,9 @@ public class LoginController {
 			ModelMap modelMap) {
 		logger.info("queryUserDetailsListByName action");
 		if (!(StringUtil.checkNullOrEmpty(userName) || StringUtil.checkNullOrEmpty(mobileNumber))) {
-			List<UserDetails> queryUserDetailsByUserNameOrMobile = userService.queryUserDetailsByUserNameOrMobile(userName, mobileNumber);
-			modelMap.addAttribute("userDetailsList",
-					queryUserDetailsByUserNameOrMobile);
+			List<UserDetails> queryUserDetailsByUserNameOrMobile = userService
+					.queryUserDetailsByUserNameOrMobile(userName, mobileNumber);
+			modelMap.addAttribute("userDetailsList", queryUserDetailsByUserNameOrMobile);
 		} else {
 			List<UserDetails> queryAllUserList = userService.queryAllUserList();
 			modelMap.addAttribute("userDetailsList", queryAllUserList);
@@ -131,8 +134,9 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "/userActivationProcess", method = RequestMethod.POST)
-	public String approveUser(@RequestParam("userIds") Long[] userIds, @RequestParam("operationType") String operationType,
-			@RequestParam("reason") String reason, ModelMap modelMap) {
+	public String approveUser(@RequestParam("userIds") Long[] userIds,
+			@RequestParam("operationType") String operationType, @RequestParam("reason") String reason,
+			ModelMap modelMap) {
 		logger.info("userActivationProcess action");
 		UserActivationProcessDto activationProcessDto = new UserActivationProcessDto(userIds, operationType, reason);
 		try {
@@ -141,7 +145,7 @@ public class LoginController {
 			modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
 		} catch (Exception e) {
 			logger.error("Exception occure while user activation process userIds:{}, operationType:{}, reason:{} ",
-					userIds, operationType, reason, e.getMessage());
+					userIds, operationType, reason, e.getMessage(),e);
 			modelMap.addAttribute("errmsg", operationType + "is failled");
 		}
 		return "userRegistration";
@@ -157,7 +161,8 @@ public class LoginController {
 	@RequestMapping(value = "/queryUsersTrackingDetails", method = RequestMethod.GET)
 	public ModelMap queryUsersTrackingDetails(@RequestParam("mobileNumber") String mobileNumber, ModelMap modelMap) {
 		logger.info("queryUsersTrackingDetails action");
-		List<GpsTrackingDetails> queryUserGpsTrackingDetails = gpsTrackingService.queryUserGpsTrackingDetails(mobileNumber);
+		List<GpsTrackingDetails> queryUserGpsTrackingDetails = gpsTrackingService
+				.queryUserGpsTrackingDetails(mobileNumber);
 		modelMap.addAttribute("usersTrackingDetails", queryUserGpsTrackingDetails);
 		return modelMap;
 	}

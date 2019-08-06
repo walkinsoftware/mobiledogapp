@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,8 +34,8 @@ import com.ws.spring.sms.service.AppSmsSender;
 @Component
 public class UserService implements Constants {
 
-	Logger logger = LogManager.getLogger(this.getClass().getName());
-
+	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	
 	@Autowired
 	UserRepository userRepository;
 
@@ -49,7 +49,7 @@ public class UserService implements Constants {
 		if (null == verifyUserOtp(userDetails.getMobileNumber(), userDetails.getOtp())) {
 			return ClientResponseUtil.getUserOptValidationFailed();
 		}
-		Role role = new Role(4L, "User");
+		Role role = new Role(Constants.ROLE_ID_GENERAL_USER, "User");
 		userDetails.setRole(role);
 		userDetails.setIsActive(REGISTERED);
 		userDetails.setGpsTracking(Boolean.TRUE);

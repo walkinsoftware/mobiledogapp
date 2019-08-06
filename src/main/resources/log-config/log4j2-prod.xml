@@ -11,7 +11,7 @@
         </Console>
 		<RollingFile name="htmlLogger" fileName="/home/mobiledo/tomcat/logs/mdog-app-info.html"
                      filePattern="../logs/mdog-app-info-%d{yyyy-MM-dd}-%i.html">
-            <HTMLLayout charset="UTF-8" title="MobileDog Info Logs" locationInfo="true" />
+            <HTMLLayout charset="UTF-8" title="MobileDog Info logs" locationInfo="true" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
                 <SizeBasedTriggeringPolicy size="10 MB" />
@@ -21,7 +21,7 @@
         <RollingFile name="FileAppender" fileName="/home/mobiledo/tomcat/logs/mdog-app.log"
                      filePattern="/home/mobiledo/tomcat/logs/mdog-app-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
-                <Pattern>${LOG_PATTERN}</Pattern>
+                <Pattern>${LOG_PATTERN}</Pattern>`
             </PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1"/>
@@ -57,11 +57,11 @@
          -->
     </Appenders>
 	 <loggers>
-		<root level="WARN" additivity="true">
+		<root level="DEBUG" additivity="true">
 		    <appenderRef ref="ConsoleAppender"/>
 		</root>
 	
-		<logger  name="com.ws.spring.MdogApplication" level="INFO" additivity="false">
+		<logger  name="com.ws.spring.MdogApplication" level="DEBUG" additivity="false">
 			<appenderRef ref="htmlLogger"/>
 	   	 	<appenderRef ref="FileAppender"/>
 		</logger>
