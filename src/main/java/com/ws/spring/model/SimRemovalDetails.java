@@ -2,7 +2,7 @@ package com.ws.spring.model;
 
 import java.io.Serializable;
 import java.sql.Blob;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +33,7 @@ public class SimRemovalDetails implements Serializable {
 	private String lattitude;
 
 	@CreationTimestamp
-	private LocalDate insertedDate;
+	private LocalDateTime insertedDate;
 
 	private Blob image;
 
@@ -81,11 +81,11 @@ public class SimRemovalDetails implements Serializable {
 		this.lattitude = lattitude;
 	}
 
-	public LocalDate getInsertedDate() {
+	public LocalDateTime getInsertedDate() {
 		return insertedDate;
 	}
 
-	public void setInsertedDate(LocalDate insertedDate) {
+	public void setInsertedDate(LocalDateTime insertedDate) {
 		this.insertedDate = insertedDate;
 	}
 

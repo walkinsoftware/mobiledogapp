@@ -170,4 +170,10 @@ public class LoginController {
 	private LoginUser filterUserDetailsFields(UserDetails userDetails) {
 		return new LoginUser(userDetails.getUserName(), userDetails.getMobileNumber(), userDetails.getRole().getId());
 	}
+	
+	@RequestMapping(value = "/userLogout" , method = RequestMethod.GET)
+	public String userLogout(@RequestParam("userName") String userName , ModelMap modelMap) {
+		modelMap.remove("loginUser");
+		return "index";
+	}
 }
