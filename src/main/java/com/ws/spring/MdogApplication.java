@@ -19,6 +19,8 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 
+import com.ws.common.util.Constants;
+
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -68,12 +70,13 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 		logger.info("Default time zone : {} , Calendare time zone :  {} , and date and time : {}",
 				TimeZone.getDefault(), calendar.getTimeZone(), calendar.getTime());
 		logger.info("Current time : {}", new Date());
-		if (!"Asia/Calcutta".equals(TimeZone.getDefault().getID())) {
-			TimeZone.setDefault(TimeZone.getTimeZone("Asia/Calcutta"));
-
+		if (!Constants.TIME_ZONE_ID.equals(TimeZone.getDefault().getID())) {
+			TimeZone timeZone = TimeZone.getTimeZone(Constants.TIME_ZONE_ID);
+			TimeZone.setDefault(timeZone);
+			calendar.setTimeZone(timeZone);
 			logger.info("Default time zone : {} , Calendare time zone :  {} , and date and time : {}",
-					TimeZone.getDefault(), calendar.getTimeZone(), calendar.getTime());
-			logger.info("Updated time : {}", new Date());
+					TimeZone.getDefault(), calendar.getTimeZone(), calendar.getTime().toString());
+			logger.info("Updated time : {}", new Date().toString());
 		}
 	}
 	/*

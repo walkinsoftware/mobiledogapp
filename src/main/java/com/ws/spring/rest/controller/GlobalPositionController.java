@@ -57,7 +57,7 @@ public class GlobalPositionController {
 			SimRemovalDetails simRemovalDetails = new SimRemovalDetails();
 			BeanUtils.copyProperties(simRemovalDto, simRemovalDetails, "image");
 			MultipartFile image = simRemovalDto.getImage();
-			if (!image.isEmpty()) {
+			if (null != image && !image.isEmpty()) {
 				try {
 					byte[] bytes = image.getBytes();
 					simRemovalDetails.setImage(new SerialBlob(bytes));
@@ -102,10 +102,10 @@ public class GlobalPositionController {
 	}
 
 	@PostMapping("/v1/emergency")
-	public ClientResponseBean emeregency(@ModelAttribute SimRemovalDto simRemovalDto) {
+	public ClientResponseBean emergency(@ModelAttribute SimRemovalDto simRemovalDto) {
 		try {
 			String mobileNumber = simRemovalDto.getMobileNumber();
-			logger.info("simRemoval simRemovalDto details : {}", simRemovalDto);
+			logger.info("Emergency  details : {}", simRemovalDto);
 			EmeregencyDetails emeregencyDetails = new EmeregencyDetails();
 			BeanUtils.copyProperties(simRemovalDto, emeregencyDetails, "image");
 			MultipartFile image = simRemovalDto.getImage();

@@ -1,7 +1,6 @@
 package com.ws.spring.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,8 +10,6 @@ public class SimRemovalDto implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 375003528659244453L;
-
-	private Long id;
 
 	private String mobileNumber;
 
@@ -26,15 +23,7 @@ public class SimRemovalDto implements Serializable{
 	
 	private String imageStr;
 	
-	private LocalDate insertedDate;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getMobileNumber() {
 		return mobileNumber;
@@ -83,14 +72,4 @@ public class SimRemovalDto implements Serializable{
 	public void setImageStr(String imageStr) {
 		this.imageStr = imageStr;
 	}
-
-	public LocalDate getInsertedDate() {
-		return insertedDate;
-	}
-
-	public void setInsertedDate(LocalDate insertedDate) {
-		this.insertedDate = insertedDate;
-	}
-	
-	
 }

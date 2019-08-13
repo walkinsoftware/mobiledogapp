@@ -16,7 +16,7 @@
 			</PatternLayout>
 			<Policies>
 				<!-- rollover on startup, daily and when the file reaches 10 MegaBytes -->
-				<OnStartupTriggeringPolicy />
+				<!-- <OnStartupTriggeringPolicy /> -->
 				<SizeBasedTriggeringPolicy size="10 MB" />
 				<TimeBasedTriggeringPolicy />
 			</Policies>
@@ -25,7 +25,7 @@
 
 	<Loggers>
 		<!-- LOG everything at INFO level -->
-		<Root level="debug">
+		<Root level="info">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="RollingFile" />
 		</Root>

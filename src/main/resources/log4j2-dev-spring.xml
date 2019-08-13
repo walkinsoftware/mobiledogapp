@@ -35,7 +35,7 @@
 
 	<Loggers>
 		<!-- LOG everything at INFO level -->
-		<Root level="debug">
+		<Root level="info">
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="RollingFile" />
 			<AppenderRef ref="htmlLogger" />
