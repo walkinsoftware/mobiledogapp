@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/userLogin", method = RequestMethod.POST)
 	public String userLogin(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam("uname") String username, @RequestParam("pwd") String password, ModelMap modelMap) {
+			@RequestParam("uname") String username, @RequestParam("pwd") String password,HttpSession session, ModelMap modelMap) {
 		logger.info("userLogin action username : {}", username);
 		try {
 			UserDto userDto = new UserDto();
@@ -55,6 +56,7 @@ public class LoginController {
 			UserDetails userDetails = userService.userLogin(userDto, Constants.LOGIN_BY_PASSWORD);
 			if (null != userDetails) {
 				Long roleId = userDetails.getRole().getId();
+				session.setAttribute("username", username);
 				logger.info("Login Successfull. username : {} and Role Id : {}", username, roleId);
 				modelMap.addAttribute("loginUser", filterUserDetailsFields(userDetails));
 
@@ -183,9 +185,10 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/userLogout", method = RequestMethod.GET)
-	public String userLogout(@RequestParam("userName") String userName, ModelMap modelMap) {
+	public String userLogout(@RequestParam("userName") String userName,HttpSession session, ModelMap modelMap) {
 		modelMap.remove("loginUser");
-		return "index";
+		session.removeAttribute("username");
+		return "redirect:index";
 	}
 
 	private LoginUser filterUserDetailsFields(UserDetails userDetails) {
