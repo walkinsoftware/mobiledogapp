@@ -5,9 +5,7 @@
 <html>
 <head>
 <title>Mobile Dog App</title>
-<script   src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous">
+
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -19,21 +17,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	    <!-- Insert to your webpage before the </head> -->
-    <script src="carouselengine/jquery.js"></script>
-    <script src="carouselengine/amazingcarousel.js"></script>
-    <link rel="stylesheet" type="text/css" href="carouselengine/initcarousel-1.css">
-    <script src="carouselengine/initcarousel-1.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="carouselengine/carouselengine/initcarousel-1.css">
     <!-- End of head section HTML codes -->
 
 
 	<!-- css -->
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/ionicons.min.css">
-	<link rel="stylesheet" href="assets/css/owl.carousel.css">
-	<link rel="stylesheet" href="assets/css/owl.theme.css">
-	<link rel="stylesheet" href="assets/css/animate.css">
-	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./assets/css/ionicons.min.css">
+	<link rel="stylesheet" href="./assets/css/owl.carousel.css">
+	<link rel="stylesheet" href="./assets/css/owl.theme.css">
+	<link rel="stylesheet" href="./assets/css/animate.css">
+	<link rel="stylesheet" href="./assets/css/style.css">
 	<style>
 body {font-family: Arial, Helvetica, sans-serif;}
 
@@ -159,20 +154,14 @@ span.psw {
 	<!-- fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic|Roboto+Condensed:300italic,400italic,700italic,400,300,700|Oxygen:400,300,700' rel='stylesheet'>
 
-	<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+	
 
-    <!--[if lt IE 9]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
+    
 </head>
 <body id="home">
 
 	<!-- ****************************** Preloader ************************** -->
 
-	<div id="preloader"></div>
 
 	<!-- ****************************** Sidebar ************************** -->
 
@@ -192,7 +181,7 @@ span.psw {
 
 	<!-- ****************************** Header ************************** -->
 
-	<header class="sticky" id="header">
+	<header class="sticky" id="header" style="height:11%;">
 		<section class="container">
 			<section class="row" id="logo_menu">
 				<section class="col-xs-8"><a class="logo" href="">Mobile Dog</a></section>
@@ -230,14 +219,14 @@ span.psw {
 					<div class="headings">
 					<h3 style="color:darkcyan;font-family:monospace;">Login here</h3>
           <div style="color: red">${errMsg}</div>
-					<form action="userLogin" method="post" style="color:black;">
+<form action="userLogin" method="post" style="color:black;bo">
   User Name/Mobile Number:<br>
   <input type="text" id="uname" name="uname">
   <br>
   Password:<br>
   <input type="password" id="pwd" name="pwd">
   <br><br>
-  <input type="submit" value="Submit">
+  <input type="submit"  class="btn btn-success"value="Submit">
 </form>
 
 					</div>
@@ -438,7 +427,7 @@ span.psw {
 						<div class="item">
 							<div class="row">
 								<div class="col-sm-4 col-sm-offset-1">
-									<div class="client-pic"><img class="img_res" src="images/vishu1.jpg"></div>
+									<div class="client-pic"><img class="img_res" src="assets/img/dev-1.jpg"></div>
 									<p class="review-star">
 										<i class="ion-ios-star"></i>
 										<i class="ion-ios-star"></i>
@@ -452,8 +441,7 @@ span.psw {
 										This is one of the great app that can make really funny and viral videos! Premium video editing features for free!!! Really Awesome.
 									</p>
 									<p class="client-name">
-										Vishwanath Modi
-									</p>
+Simth 									</p>
 								</div>
 							</div>
 						</div>
@@ -471,7 +459,7 @@ span.psw {
 								</div>
 								<div class="col-sm-6">
 									<p class="review-desc">
-										This is APp is most usefull parents and children, Emergency women safety,over all its cool adn awesome App
+										This is App is most usefull parents and children, Emergency women safety,over all its cool adn awesome App
 									</p>
 									<p class="client-name">
 										Nageswar Rao
@@ -482,7 +470,7 @@ span.psw {
 						<div class="item">
 							<div class="row">
 								<div class="col-sm-4 col-sm-offset-1">
-									<div class="client-pic"><img class="img_res" src="assets/img/dev-1.jpg"></div>
+									<div class="client-pic"><img class="img_res" src="assets/img/dev-3.jpg"></div>
 									<p class="review-star">
 										<i class="ion-ios-star"></i>
 										<i class="ion-ios-star"></i>
@@ -493,12 +481,10 @@ span.psw {
 								</div>
 								<div class="col-sm-6">
 									<p class="review-desc">
-										Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-										tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-										quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+										This is The best APp for the Women, and Mobile safety achived.
 									</p>
 									<p class="client-name">
-										Shahjahan Jewel
+										Anna Joe
 									</p>
 								</div>
 							</div>
@@ -506,7 +492,7 @@ span.psw {
 						<div class="item">
 							<div class="row">
 								<div class="col-sm-4 col-sm-offset-1">
-									<div class="client-pic"><img class="img_res" src="assets/img/dev-2.jpg"></div>
+									<div class="client-pic"><img class="img_res" src="assets/img/dev-4.jpg"></div>
 									<p class="review-star">
 										<i class="ion-ios-star"></i>
 										<i class="ion-ios-star"></i>
@@ -564,24 +550,10 @@ window.onclick = function(event) {
 	<!--------------------------Video gallery Ends-------------------------->
 	<!-- ****************************** Contact Section ************************** -->
 
-	<section id="contact">
-
-			<section class="address">
-				<div class="container">
-					<div class="col-sm-12">
-						<ul class="address-list">
-							<li><i class="material-icons" style="color:#19A0A0;">location_on</i> <span style="color:red;">#553 , 15th main 1st cross 3rd stage , 4th block , basaveswar nagar</span></li>
-							<li><i class="material-icons" style="color:#19A0A0;">call</i></i> <span style="color:red;">8880499463</span></li>
-						</ul>
-					</div>
-				</div>
-			</section>
-			<section class="mailbox">
-					<div class="col-sm-12">
-					<div class="mapouter"><div class="gmap_canvas"><iframe width="900" height="600" id="gmap_canvas" src="https://maps.google.com/maps?q=%23553%2C%2015th%20main%203rd%20stage%204th%20block%20basavedhwara%20nagar%20bangalore%20560079%2C%20Bengaluru%2C%20Karnataka%20560079&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.embedgooglemap.net/blog/best-wordpress-themes/">embedgooglemap.net theme with visual composer</a></div><style>.mapouter{position:relative;text-align:right;height:500px;width:600px;}.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:600px;}</style></div>
-					</div>
-			</section>
-			<div class="clearfix"></div>
+	<section id="contact" class="block">
+<div class="mapouter">
+<div class="gmap_canvas"><iframe width="100%;" height="100%;" id="gmap_canvas" src="https://maps.google.com/maps?q=%23553%2C%2015th%20main%203rd%20stage%204th%20block%20basavedhwara%20nagar%20bangalore%20560079%2C%20Bengaluru%2C%20Karnataka%20560079&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://www.embedgooglemap.net/blog/best-wordpress-themes/">best wordpress themes</a></div><style>.mapouter{position:relative;text-align:right;height:400px;width:1349px;}.gmap_canvas {overflow:hidden;background:none!important;height:400px;width:1349px;}</style>
+</div>	
 		</section>
 
 		<!-- ****************************** Footer ************************** -->
@@ -592,7 +564,7 @@ window.onclick = function(event) {
 					<div class="col-sm-6">
 						<span>Developed By</span>
 						<h1 class="footer-logo">
-							<a href="https://www.walkinsoftwares.com/">WalkinSoftware Technolgies PVT. LTD.</a>
+							<a href="https://www.walkinsoftwares.com/">WalkinSoftware Technologies PVT. LTD.</a>
 						</h1>
 					</div>
 					<div class="col-sm-6">
@@ -624,6 +596,13 @@ $(document).ready(function(){
 
 });
 </script>
+<script   src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous">
+<!-- Insert to your webpage before the </head> -->
+<script src="carouselengine/carouselengine/jquery.js"></script>
+<script src="carouselengine/amazingcarousel.js"></script>
+    <script src="carouselengine/carouselengine/initcarousel-1.js"></script>
 
 </body>
 </html>

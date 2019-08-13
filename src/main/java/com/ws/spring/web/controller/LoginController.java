@@ -32,7 +32,7 @@ import com.ws.spring.web.model.LoginUser;
 public class LoginController {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
-	
+
 	@Autowired
 	UserService userService;
 
@@ -61,7 +61,7 @@ public class LoginController {
 				if (Constants.ROLE_ID_SUPERADMIN == roleId || Constants.ROLE_ID_ADMIN == roleId) {
 					modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
 					modelMap.addAttribute("adminDashboardDetails", userService.getAdminDashboardDetails());
-					return "Admin";
+					return "admin";
 				}
 				if (Constants.ROLE_ID_GENERAL_USER == roleId || Constants.ROLE_ID_REPORTER == roleId) {
 
@@ -77,7 +77,7 @@ public class LoginController {
 							.queryEmergencyDetails(userDetails.getMobileNumber());
 					modelMap.addAttribute("emergenceDetails", queryEmergencyDetails);
 
-					return "User";
+					return "user";
 				}
 			} else {
 				modelMap.addAttribute("errMsg", "Invalid Credentials, Please try again.");
@@ -87,6 +87,21 @@ public class LoginController {
 
 		} catch (Exception e) {
 			logger.error("Exception occure while user loginusername : {} , error : {}", username, e.getMessage(), e);
+		}
+
+		return "index";
+	}
+
+	@RequestMapping(value = "/adminDashboard", method = RequestMethod.GET)
+	public String adminDashboard(ModelMap modelMap) {
+		try {
+
+			modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
+			modelMap.addAttribute("adminDashboardDetails", userService.getAdminDashboardDetails());
+			return "admin";
+
+		} catch (Exception e) {
+			logger.error("Exception occure while user , error : {}", e.getMessage(), e);
 		}
 
 		return "index";
@@ -145,7 +160,7 @@ public class LoginController {
 			modelMap.addAttribute("registeredUserList", userService.queryRegisteredUsers());
 		} catch (Exception e) {
 			logger.error("Exception occure while user activation process userIds:{}, operationType:{}, reason:{} ",
-					userIds, operationType, reason, e.getMessage(),e);
+					userIds, operationType, reason, e.getMessage(), e);
 			modelMap.addAttribute("errmsg", operationType + "is failled");
 		}
 		return "userRegistration";
@@ -167,13 +182,13 @@ public class LoginController {
 		return modelMap;
 	}
 
-	private LoginUser filterUserDetailsFields(UserDetails userDetails) {
-		return new LoginUser(userDetails.getUserName(), userDetails.getMobileNumber(), userDetails.getRole().getId());
-	}
-	
-	@RequestMapping(value = "/userLogout" , method = RequestMethod.GET)
-	public String userLogout(@RequestParam("userName") String userName , ModelMap modelMap) {
+	@RequestMapping(value = "/userLogout", method = RequestMethod.GET)
+	public String userLogout(@RequestParam("userName") String userName, ModelMap modelMap) {
 		modelMap.remove("loginUser");
 		return "index";
+	}
+
+	private LoginUser filterUserDetailsFields(UserDetails userDetails) {
+		return new LoginUser(userDetails.getUserName(), userDetails.getMobileNumber(), userDetails.getRole().getId());
 	}
 }

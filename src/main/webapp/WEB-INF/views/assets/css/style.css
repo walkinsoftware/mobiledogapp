@@ -291,6 +291,7 @@ a:hover {
     width: 100%;
     background-color: #ff256f;
     padding: 0px;
+    height: 11%;
 }
 .logo {
     font-family: 'caviar_dreams';
@@ -758,7 +759,7 @@ input:-moz-placeholder, textarea:-moz-placeholder {
 
 #footer {
     background: #ff256f;
-    padding: 20px 0px 22px 0px;
+    padding: 2px 0px 2px 0px;
 }
 .footer-logo {
     font-size: 27px;

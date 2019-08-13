@@ -1,11 +1,7 @@
 package com.ws.spring.rest.controller;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
 
 import javax.validation.Valid;
 
@@ -61,21 +57,6 @@ public class HomeRestController {
 	public String testing() {
 		logger.info("App testing {}", new Date());
 		return "App is up and running";
-	}
-	
-	@GetMapping("/v1/getTimeByTimeZone")
-	public Map<String, String> getTimeByTimeZone(@RequestParam String timezoneId) {
-		Date currentDateTime = new Date();
-		logger.info("App testing {}", currentDateTime);
-		TimeZone timeZone = TimeZone.getTimeZone(timezoneId);
-		TimeZone.setDefault(timeZone);
-		Calendar calendarInstance = Calendar.getInstance();
-		calendarInstance.setTimeZone(timeZone);
-		Map<String, String> times = new HashMap<String, String>();
-		times.put("Date ", currentDateTime.toString());
-		times.put("Calendar ", calendarInstance.getTime().toString());
-		
-		return times;
 	}
 
 	/**
@@ -263,13 +244,13 @@ public class HomeRestController {
 		}
 	}
 
-	@PostMapping("/v1/userLoginByMpin")
+	@PostMapping("/v1/userLoginMpin")
 	@ApiOperation(value = "User Login using Pin", response = ClientResponseBean.class)
 	@ApiParam(required = true, value = "username")
 	@ApiResponses(value = { @ApiResponse(code = 1000, message = "User Login success."),
 			@ApiResponse(code = 1001, message = "User Login Failed."),
 			@ApiResponse(code = 500, message = "Internal Server Error"), })
-	public ClientResponseBean userLoginByMpin(@RequestBody UserDto userDto) {
+	public ClientResponseBean userLoginMpin(@RequestBody UserDto userDto) {
 		logger.info("userLoginMpin for user : {}", userDto.getUsername());
 		try {
 			logger.info("User MPIN login process : {}", userDto);

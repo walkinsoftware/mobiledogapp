@@ -35,7 +35,7 @@ import com.ws.spring.sms.service.AppSmsSender;
 public class UserService implements Constants {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
-
+	
 	@Autowired
 	UserRepository userRepository;
 
@@ -185,21 +185,19 @@ public class UserService implements Constants {
 
 	public boolean changePassword(UserDto userDto) {
 		String username = userDto.getUsername();
-		if (StringUtil.checkNullOrEmpty(username)) {
-			username = userDto.getMobileNumber();
-		}
 		if (null == verifyUserOtp(username, userDto.getOtp())) {
 			return Boolean.FALSE;
 		}
-		UserDetails userDetailsFromDb = userRepository.queryLoginUserDetails(username);
+		UserDetails userDetailsFromDb = userRepository.queryLoginUserDetails(userDto.getUsername());
 		if (null != userDetailsFromDb) {
-			// if (userDetailsFromDb.getPassword().equals(userDto.getCurrentPassword())) {
-			userDetailsFromDb.setPassword(userDto.getNewPassword());
-			userRepository.save(userDetailsFromDb);
-			// Send sms and email for updating the password
+			if (userDetailsFromDb.getPassword().equals(userDto.getCurrentPassword())) {
+				userDetailsFromDb.setPassword(userDto.getNewPassword());
+				// userDetailsFromDb.setUpdatedDate(DateUtil.convertToLocalDateTimeViaInstant(userDto.getCurrentTime()));
+				userRepository.save(userDetailsFromDb);
+				// Send sms and email for updating the password
+			}
 			return Boolean.TRUE;
 		}
-		logger.warn("User detail not exist . User Name : {}", userDto.getUsername());
 		return Boolean.FALSE;
 	}
 

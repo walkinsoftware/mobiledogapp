@@ -3,10 +3,6 @@ package com.ws.common.util;
 public interface Constants {
 
 	/**
-	 * TIme zone used for the application
-	 */
-	String TIME_ZONE_ID = "Asia/Kolkata";
-	/**
 	 * User Role description
 	 */
 	long ROLE_ID_SUPERADMIN = 1;
@@ -54,9 +50,4 @@ public interface Constants {
 
 	String LOGIN_BY_PASSWORD = "LOGIN_BY_PASSWORD";
 	
-	/**
-	 * sms message code and content
-	 */
-	String SMS_EMERENCY = "mdogapp.sms.emeregency";
-
 }

@@ -10,7 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
-import com.ws.common.util.Constants;
 import com.ws.common.util.StringUtil;
 import com.ws.spring.dto.UserOtpBean;
 import com.ws.spring.model.UserDetails;
@@ -92,15 +91,13 @@ public class AppSmsSender {
 
 		mainUrlreplacements.put("message", messageEncoded);
 		String mobileNumber = userDetails.getMobileNumber();
-		if(Constants.SMS_EMERENCY.equals(msgCode))
-			mobileNumber = userDetails.getSecondaryMobileNumber();
 		mainUrlreplacements.put("mobile", mobileNumber);
 
 		return StringUtil.messageFormat(smsMainUrl, mainUrlreplacements);
 	}
 
 	public void sendEmergencyNotificationSms(UserDetails userDetails) {
-		String mainUrl = prepareSms(userDetails, Constants.SMS_EMERENCY);
+		String mainUrl = prepareSms(userDetails, "mdogapp.sms.emeregency");
 		sendSms.sendSmstoUser(mainUrl, userDetails.getSecondaryMobileNumber());
 	}
 }
