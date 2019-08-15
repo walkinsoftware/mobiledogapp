@@ -188,7 +188,7 @@ public class LoginController {
 	public String userLogout(@RequestParam("userName") String userName,HttpSession session, ModelMap modelMap) {
 		modelMap.remove("loginUser");
 		session.removeAttribute("username");
-		return "redirect:index";
+		return "index";
 	}
 
 	private LoginUser filterUserDetailsFields(UserDetails userDetails) {
