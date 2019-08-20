@@ -71,7 +71,7 @@ public class GlobalPositionController {
 			logger.warn("addimg sim removal data failed");
 			return ClientResponseUtil.getErrorResponse();
 		} catch (Exception ex) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Registration got an Error", ex);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "simRemoval got an Error", ex);
 		}
 	}
 
@@ -81,13 +81,19 @@ public class GlobalPositionController {
 			return simRemovalDetailsService.querySimRemovalDetailsByMobileNumber(mobileNumber);
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Registration got an Error", ex);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "querySimRemovalDetails got an Error", ex);
 		}
 	}
 
 	@PostMapping("/v1/addUserGpsTrackingDetails")
 	public ClientResponseBean addUserGpsTrackingDetails(@RequestBody GpsTrackingDetails userGpsTrackingDetails) {
-		gpsTrackingService.addUserGpsTrackingDetails(userGpsTrackingDetails);
+		try {
+			logger.info("addUserGpsTrackingDetails  details : {}", userGpsTrackingDetails);
+			gpsTrackingService.addUserGpsTrackingDetails(userGpsTrackingDetails);
+		} catch (Exception ex) {
+			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "addUserGpsTrackingDetails got an Error", ex);
+		}
 		return null;
 	}
 
@@ -97,7 +103,7 @@ public class GlobalPositionController {
 			return gpsTrackingService.queryUserGpsTrackingDetails(mobileNumber);
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Registration got an Error", ex);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "queryUserGpsTrackingDetails got an Error", ex);
 		}
 	}
 
@@ -126,7 +132,7 @@ public class GlobalPositionController {
 			return ClientResponseUtil.getErrorResponse();
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Registration got an Error", ex);
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "emergency got an Error", ex);
 		}
 	}
 }

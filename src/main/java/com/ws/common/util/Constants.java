@@ -58,5 +58,11 @@ public interface Constants {
 	 * sms message code and content
 	 */
 	String SMS_EMERENCY = "mdogapp.sms.emeregency";
-
+	
+	long ONE_SECOND = 1000;
+	
+	long ONE_MIN = 60 * ONE_SECOND;
+	
+	long ONE_HOUR = 60 * ONE_MIN;
+	
 }

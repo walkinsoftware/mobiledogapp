@@ -3,10 +3,8 @@ package com.ws.spring.model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -62,7 +60,7 @@ public class UserDetails implements Serializable {
 
 	private String secondaryMobileNumber;
 
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.REFRESH }, fetch = FetchType.LAZY)
+	@ManyToOne
     @JoinColumn(name = "role_id")
 	private Role role;
 

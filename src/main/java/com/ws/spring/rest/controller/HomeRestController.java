@@ -126,7 +126,7 @@ public class HomeRestController {
 			if (null != userOptBeanReturn) {
 				return ClientResponseUtil.sentOptSucces();
 			}
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not FOund",
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found",
 					new UserDetailNotFoundException("User Not Found"));
 		} catch (Exception ex) {
 			logger.error("Exception Occure : {} ", ex.getMessage(), ex);

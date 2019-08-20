@@ -67,16 +67,18 @@ public class MdogApplication extends SpringBootServletInitializer implements App
 
 	private void setTimeZone() {
 		Calendar calendar = Calendar.getInstance();
-		logger.info("Default time zone : {} , Calendare time zone :  {} , and date and time : {}",
-				TimeZone.getDefault(), calendar.getTimeZone(), calendar.getTime());
-		logger.info("Current time : {}", new Date());
+		logger.info("Default time zone : {} , and date and time : {}", TimeZone.getDefault().getID(),
+				new Date().toString());
+		logger.info("Calendare time zone :  {} , and date and time : {}", calendar.getTimeZone().getID(),
+				calendar.getTime());
 		if (!Constants.TIME_ZONE_ID.equals(TimeZone.getDefault().getID())) {
 			TimeZone timeZone = TimeZone.getTimeZone(Constants.TIME_ZONE_ID);
 			TimeZone.setDefault(timeZone);
 			calendar.setTimeZone(timeZone);
-			logger.info("Default time zone : {} , Calendare time zone :  {} , and date and time : {}",
-					TimeZone.getDefault(), calendar.getTimeZone(), calendar.getTime().toString());
-			logger.info("Updated time : {}", new Date().toString());
+			logger.info("Updated Default time zone : {} , and date and time : {}", TimeZone.getDefault().getID(),
+					new Date().toString());
+			logger.info("Updated Calendare time zone :  {} , and date and time : {}", calendar.getTimeZone().getID(),
+					calendar.getTime());
 		}
 	}
 	/*
